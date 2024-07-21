@@ -1,10 +1,11 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import Main from "./components/Main"; // Import the Main component
 import Box from "./components/Box"; // Import the Box component
-import PlcInfo from "./components/PlcInfo"; // Import the PlcInfo component
-import PlcVariableContainer from "./components/PlcVariableContainer"; // Import the PlcVariableContainer component
+
 import "./index.css";
 import { useReducer } from "react";
 import PlcValue from "./components/PlcValue";
+import PlcList from "./components/PlcList";
 
 const initialState = {
   plcInfo: {
@@ -120,6 +121,14 @@ function reducer(state, action) {
       break;
     case "read":
       console.log("Read", action.payload);
+
+      fetch(
+        `http://localhost:3001/api/readVariable?variableName=${action.payload.Name}`,
+        { mode: "no-cors" }
+      );
+      // .then((response) => response.json())
+      // .then((data) => console.log(data));
+
       newState = { ...state, selectedVariable: action.payload };
       break;
     default:
@@ -134,14 +143,10 @@ function App() {
     initialState
   );
 
-  console.log("log variables", variables);
-  console.log("log selectedVariable", selectedVariable);
-
   return (
     <Main>
       <Box>
-        <PlcInfo info={plcInfo} />
-        <PlcVariableContainer dispatch={dispatch} variables={variables} />
+        <PlcList dispatch={dispatch} variables={variables} />
       </Box>
       <Box>
         <PlcValue dispatch={dispatch} variable={selectedVariable} />

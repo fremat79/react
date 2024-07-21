@@ -1,5 +1,4 @@
 function PlcValue({ variable, value }) {
-  console.log(variable, value);
   return (
     variable && (
       <div className="value">

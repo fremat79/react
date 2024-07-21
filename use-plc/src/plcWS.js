@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -17,10 +17,14 @@ app.get("/api/greet", (req, res) => {
 });
 
 // Define a simple API endpoint
-app.get("/api/read", async (req, res) => {
-  const plcData = await readPLC();
+app.get("/api/readVariable", async (req, res) => {
+  console.log(req.query.variableName);
+
+  const plcData = "test"; // await readPLC();
   res.json({ data: plcData });
 });
+
+app.post("/api/writeVariable", async (req, res) => {});
 
 function readPLC() {
   return new Promise((resolve, reject) => {

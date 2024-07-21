@@ -1,14 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrochip } from "@fortawesome/free-solid-svg-icons";
 
-function PlcInfo({ info }) {
+function PlcInfo({ info, dispatch }) {
   return (
     <li>
       <div className="summary">
         <FontAwesomeIcon size="3x" icon={faMicrochip} />
         <h2>{info.host}</h2>
-        <button className="button-33">Connect</button>
-        <button className="button-66">Disconnect</button>
+        <button variant="success">Connect</button>
+        <button variant="danger">Disconnect</button>
       </div>
     </li>
   );

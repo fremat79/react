@@ -1,3 +1,7 @@
 export default function Main({ children }) {
-  return <main className="main">{children}</main>;
+  return (
+    <main data-bs-theme="dark" className="main">
+      {children}
+    </main>
+  );
 }
