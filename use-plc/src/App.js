@@ -129,6 +129,8 @@ function reducer(state, action) {
 async function handleWriteVariable(plcVariable, value) {
   const variable = `${plcVariable.Name}:${plcVariable.DB},${plcVariable.Type}${plcVariable.Address}`;
 
+  console.log("Writing variable", variable, "with value", value);
+
   // Example object to post
   const data = {
     variable: variable,

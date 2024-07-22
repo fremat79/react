@@ -1,9 +1,8 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrochip } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import PlcVariable from "./PlcVariable";
 
 function PlcList({ refreshTimeStamp, variables, dispatch }) {
   const [plcData, setPLCData] = useState([]);
@@ -29,7 +28,6 @@ function PlcList({ refreshTimeStamp, variables, dispatch }) {
         <Accordion.Item eventKey="0">
           <Accordion.Header>Plc info</Accordion.Header>
           <Accordion.Body>
-            <div></div>
             <Button
               onClick={() => dispatch({ type: "refresh" })}
               variant="success">
@@ -40,44 +38,12 @@ function PlcList({ refreshTimeStamp, variables, dispatch }) {
       </Accordion>
       <ListGroup as="ol">
         {variables.map((variable) => (
-          <ListGroup.Item
-            onClick={() => dispatch({ type: "select", payLoad: variable })}
-            as="li"
-            key={variable.Name}>
-            <div>
-              <div className="fw-bold">
-                {variable.Name} (
-                {plcData[variable.Name] === undefined
-                  ? "❓"
-                  : plcData[variable.Name]}
-                )
-              </div>
-              <div className="plcInfoContainer">
-                <ul>
-                  <li>
-                    <div className="plcVariableInfo">
-                      <FontAwesomeIcon size="1x" icon={faMicrochip} />
-                      {variable.DB}
-                    </div>
-                  </li>
-                  <li>
-                    <div className="plcVariableInfo">
-                      <FontAwesomeIcon size="1x" icon={faMicrochip} />
-                      {variable.Type}
-                    </div>
-                  </li>
-                  <li>
-                    <div className="plcVariableInfo">
-                      <FontAwesomeIcon size="1x" icon={faMicrochip} />
-                      {variable.Address}
-                    </div>
-                  </li>
-                </ul>
-
-                <Button variant="danger">Write</Button>
-              </div>
-            </div>
-          </ListGroup.Item>
+          <PlcVariable
+            key={variable.Name}
+            variable={variable}
+            dispatch={dispatch}
+            plcData={plcData}
+          />
         ))}
       </ListGroup>
     </>

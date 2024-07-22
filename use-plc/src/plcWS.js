@@ -40,13 +40,13 @@ app.post("/api/writeVariable", async (req, res) => {
 
   console.log("post writeVariable", plcVar);
 
-  try {
+  /*try {
     await writePLC(plcVar);
     res.status(200).json({ message: "Variable successfully written to PLC" });
   } catch (error) {
     console.error("Error writing variable to PLC:", error);
     res.status(500).json({ error: "Failed to write variable to PLC" });
-  }
+  }*/
 });
 
 async function writePLC(plcVar) {
