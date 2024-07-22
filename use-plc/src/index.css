@@ -46,6 +46,8 @@ body {
 }
 .box li {
   list-style: none;
+  margin: 5px 15px 0px 15px;
+  cursor: pointer;
 }
 
 .summary {
@@ -60,4 +62,14 @@ body {
 .plcInfoContainer {
   display: flex;
   justify-content: space-between;
+}
+
+.plcVariableInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+}
+
+.plcInfo {
+  margin: 5px 15px 0px 15px;
 }

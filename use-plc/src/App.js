@@ -108,28 +108,17 @@ const initialState = {
     },
   ],
   selectedVariable: null,
+  refreshTimeStamp: Date.now(),
 };
 
 function reducer(state, action) {
   let newState;
   switch (action.type) {
-    case "connect":
-      newState = { ...state };
+    case "refresh":
+      newState = { ...state, refreshTimeStamp: Date.now() };
       break;
-    case "disconnect":
-      newState = { ...state };
-      break;
-    case "read":
-      console.log("Read", action.payload);
-
-      fetch(
-        `http://localhost:3001/api/readVariable?variableName=${action.payload.Name}`,
-        { mode: "no-cors" }
-      );
-      // .then((response) => response.json())
-      // .then((data) => console.log(data));
-
-      newState = { ...state, selectedVariable: action.payload };
+    case "select":
+      newState = { ...state, selectedVariable: action.payLoad };
       break;
     default:
       throw new Error("Invalid action type");
@@ -137,22 +126,46 @@ function reducer(state, action) {
   return newState;
 }
 
-function App() {
-  const [{ plcInfo, variables, selectedVariable }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+async function handleWriteVariable(plcVariable, value) {
+  const variable = `${plcVariable.Name}:${plcVariable.DB},${plcVariable.Type}${plcVariable.Address}`;
+
+  // Example object to post
+  const data = {
+    variable: variable,
+    value: value,
+  };
+
+  // Create a fetch request posting the object
+  const response = await fetch("http://localhost:3001/api/writeVariable", {
+    method: "POST", // Set the request method to POST
+    headers: {
+      "Content-Type": "application/json", // Indicate JSON payload
+    },
+    body: JSON.stringify(data), // Stringify and include the object in the request body
+  });
+  const json = await response.json(); // Parse JSON response}
+}
+
+export default function App() {
+  const [{ variables, selectedVariable, refreshTimeStamp }, dispatch] =
+    useReducer(reducer, initialState);
 
   return (
     <Main>
       <Box>
-        <PlcList dispatch={dispatch} variables={variables} />
+        <PlcList
+          refreshTimeStamp={refreshTimeStamp}
+          dispatch={dispatch}
+          variables={variables}
+        />
       </Box>
       <Box>
-        <PlcValue dispatch={dispatch} variable={selectedVariable} />
+        <PlcValue
+          onWriteVariable={handleWriteVariable}
+          dispatch={dispatch}
+          variable={selectedVariable}
+        />
       </Box>
     </Main>
   );
 }
-
-export default App;
