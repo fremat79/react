@@ -14,13 +14,12 @@ app.get("/", (req, res) => {
 
 // Define a simple API endpoint
 app.get("/api/readVariables", async (req, res) => {
-  //const plcData = await readPLC();
+  // const plcData = {
+  //   StatoPosLoad: 32,
+  //   IDStatoPosLoad: 34,
+  // };
 
-  const plcData = {
-    StatoPosLoad: 32,
-    IDStatoPosLoad: 34,
-  };
-
+  const plcData = await readPLC();
   res.status(200).json({ data: plcData });
 });
 
@@ -40,16 +39,16 @@ app.post("/api/writeVariable", async (req, res) => {
 
   console.log("post writeVariable", plcVar);
 
-  /*try {
+  try {
     await writePLC(plcVar);
     res.status(200).json({ message: "Variable successfully written to PLC" });
   } catch (error) {
     console.error("Error writing variable to PLC:", error);
     res.status(500).json({ error: "Failed to write variable to PLC" });
-  }*/
+  }
 });
 
-async function writePLC(plcVar) {
+async function writePLC(vObj) {
   return new Promise((resolve, reject) => {
     const nodes7 = require("nodes7"); // Step 2: Import nodes7
     const plc = new nodes7(); // Step 3: Create a connection object
@@ -67,19 +66,30 @@ async function writePLC(plcVar) {
         reject(err);
       }
 
+      const wInfos = vObj.variable.split(":");
+
+      const plcVar = {
+        WRITE: wInfos[1],
+      }; // Example: Writing to DB1,INT0
+      const valueToWrite = { WRITE: vObj.value }; // The value to write
+
       plc.setTranslationCB((tag) => plcVar[tag]);
       plc.addItems(Object.keys(plcVar));
 
-      plc.writeAllItems((error) => {
-        if (error) {
-          console.error("Error writing:", error);
-          reject(error);
-        } else {
-          console.log("Variable successfully written to PLC");
-          resolve();
+      plc.writeItems(
+        Object.keys(valueToWrite),
+        Object.values(valueToWrite),
+        (error) => {
+          if (error) {
+            console.error("Error writing:", error);
+            reject(error);
+          } else {
+            console.log("Variable successfully written to PLC");
+            resolve();
+          }
+          plc.dropConnection();
         }
-        plc.dropConnection();
-      });
+      );
     });
   });
 }

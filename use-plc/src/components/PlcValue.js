@@ -1,6 +1,9 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Stack from "react-bootstrap/Stack";
+import PlcDefaultValues from "./PlcDefaultValues";
+
 import { useRef, useState } from "react";
 
 function PlcValue({ onWriteVariable, variable, dispatch }) {
@@ -16,6 +19,10 @@ function PlcValue({ onWriteVariable, variable, dispatch }) {
     setIsValid(true); // Reset validation state on valid input
     onWriteVariable(variable, valueRef.current.value);
   }
+  function handleWriteDefaultValue(plcVariable, value) {
+    onWriteVariable(variable, value);
+    //dispatch({ type: "refresh" });
+  }
 
   return (
     variable && (
@@ -24,25 +31,37 @@ function PlcValue({ onWriteVariable, variable, dispatch }) {
           onClick={() => dispatch({ type: "select", payLoad: variable })}
           as="li"
           className="plcValueInfo"
-          key={variable.Name}>
-          <div> </div>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>{variable.Name}</Form.Label>
-              <Form.Control
-                isInvalid={!isValid} // Step 1: Add validation state as
-                required
-                ref={valueRef}
-                placeholder="insert value here"
+          key={variable.Name}
+        >
+          {variable.DefaultValues?.length === 0 && (
+            <>
+              <Form>
+                <Form.Group className="mb-3">
+                  <Form.Label>{variable.Name}</Form.Label>
+                  <Form.Control
+                    isInvalid={!isValid} // Step 1: Add validation state as
+                    required
+                    ref={valueRef}
+                    placeholder="insert value here"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please insert a value.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Form>
+              <Button onClick={() => handleWriteClick()} variant="danger">
+                Write
+              </Button>
+            </>
+          )}
+          {variable?.DefaultValues?.length > 0 && (
+            <Stack direction="horizontal" gap={3}>
+              <PlcDefaultValues
+                onWriteDefaultValue={handleWriteDefaultValue}
+                variable={variable}
               />
-              <Form.Control.Feedback type="invalid">
-                Please insert a value.
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Form>
-          <Button onClick={() => handleWriteClick()} variant="danger">
-            Write
-          </Button>
+            </Stack>
+          )}
         </ListGroup.Item>
       </ListGroup>
     )
