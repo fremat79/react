@@ -23,30 +23,16 @@ function PlcList({ refreshTimeStamp, variables, dispatch }) {
   }, [refreshTimeStamp]);
 
   return (
-    <>
-      <Accordion className="plcInfo" defaultActiveKey="0" alwaysOpen>
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Plc info</Accordion.Header>
-          <Accordion.Body>
-            <Button
-              onClick={() => dispatch({ type: "refresh" })}
-              variant="success">
-              Read all
-            </Button>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
-      <ListGroup as="ol">
-        {variables.map((variable) => (
-          <PlcVariable
-            key={variable.Name}
-            variable={variable}
-            dispatch={dispatch}
-            plcData={plcData}
-          />
-        ))}
-      </ListGroup>
-    </>
+    <ListGroup as="ol">
+      {variables.map((variable) => (
+        <PlcVariable
+          key={variable.Name}
+          variable={variable}
+          dispatch={dispatch}
+          plcData={plcData}
+        />
+      ))}
+    </ListGroup>
   );
 }
 

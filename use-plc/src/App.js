@@ -6,6 +6,7 @@ import "./index.css";
 import { useReducer } from "react";
 import PlcValue from "./components/PlcValue";
 import PlcList from "./components/PlcList";
+import PlcInfo from "./components/PlcInfo";
 
 const initialState = {
   plcInfo: {
@@ -176,6 +177,7 @@ export default function App() {
   return (
     <Main>
       <Box>
+        <PlcInfo info={initialState.plcInfo} dispatch={dispatch} />
         <PlcList
           refreshTimeStamp={refreshTimeStamp}
           dispatch={dispatch}

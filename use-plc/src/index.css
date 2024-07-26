@@ -77,3 +77,15 @@ body {
 .plcInfo {
   margin: 15px 15px 0px 15px;
 }
+
+.plcInfo ul{
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 5px;  
+}
+.plcInfo ul li{
+  display: inline;
+  margin: 0;
+  margin-right: 10px;
+}
