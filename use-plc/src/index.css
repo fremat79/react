@@ -62,6 +62,7 @@ body {
 .plcInfoContainer {
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
 }
 
 .plcVariableInfo {
@@ -78,13 +79,13 @@ body {
   margin: 15px 15px 0px 15px;
 }
 
-.plcInfo ul{
+.plcInfo ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
-  margin-bottom: 5px;  
+  margin-bottom: 5px;
 }
-.plcInfo ul li{
+.plcInfo ul li {
   display: inline;
   margin: 0;
   margin-right: 10px;

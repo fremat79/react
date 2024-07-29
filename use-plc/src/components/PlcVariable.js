@@ -2,6 +2,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrochip } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import { Button, Form, Row, Col, Stack } from "react-bootstrap";
 
 function PlcVariable({ variable, dispatch, plcData }) {
   return (
@@ -15,26 +16,20 @@ function PlcVariable({ variable, dispatch, plcData }) {
           )
         </div>
         <div className="plcInfoContainer">
-          <ul>
-            <li>
-              <div className="plcVariableInfo">
-                <FontAwesomeIcon size="1x" icon={faMicrochip} />
-                {variable.DB}
-              </div>
-            </li>
-            <li>
-              <div className="plcVariableInfo">
-                <FontAwesomeIcon size="1x" icon={faMicrochip} />
-                {variable.Type}
-              </div>
-            </li>
-            <li>
-              <div className="plcVariableInfo">
-                <FontAwesomeIcon size="1x" icon={faMicrochip} />
-                {variable.Address}
-              </div>
-            </li>
-          </ul>
+          <Stack direction="horizontal" gap={2}>
+            <div className="plcVariableInfo">
+              <FontAwesomeIcon size="1x" icon={faMicrochip} />
+              {variable.DB}
+            </div>
+            <div className="plcVariableInfo">
+              <FontAwesomeIcon size="1x" icon={faMicrochip} />
+              {variable.Type}
+            </div>
+            <div className="plcVariableInfo">
+              <FontAwesomeIcon size="1x" icon={faMicrochip} />
+              {variable.Address}
+            </div>
+          </Stack>
         </div>
       </div>
     </ListGroup.Item>

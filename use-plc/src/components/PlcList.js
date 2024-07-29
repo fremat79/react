@@ -16,7 +16,7 @@ function PlcList({ refreshTimeStamp, variables, dispatch }) {
         const data = await response.json();
         setPLCData(data.data);
       } catch (error) {
-        console.error("Error reading:", error);
+        //console.error("Error reading:", error);
       }
     }
     readVariables();

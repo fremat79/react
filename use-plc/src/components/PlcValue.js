@@ -9,6 +9,7 @@ import { useRef, useState } from "react";
 function PlcValue({ onWriteVariable, variable, dispatch }) {
   const valueRef = useRef(0);
   const [isValid, setIsValid] = useState(true);
+
   function handleWriteClick() {
     const value = valueRef.current.value;
     // Step 2: Check if the value is valid (e.g., not empty)
@@ -31,8 +32,7 @@ function PlcValue({ onWriteVariable, variable, dispatch }) {
           onClick={() => dispatch({ type: "select", payLoad: variable })}
           as="li"
           className="plcValueInfo"
-          key={variable.Name}
-        >
+          key={variable.Name}>
           {variable.DefaultValues?.length === 0 && (
             <>
               <Form>
