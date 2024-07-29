@@ -1,8 +1,7 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrochip } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import { Button, Form, Row, Col, Stack } from "react-bootstrap";
+import { Stack } from "react-bootstrap";
 
 function PlcVariable({ variable, dispatch, plcData }) {
   return (

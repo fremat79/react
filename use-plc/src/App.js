@@ -131,14 +131,30 @@ const initialState = {
   ],
   selectedVariable: null,
   refreshTimeStamp: Date.now(),
-  editPLC: false,
+  editMode: "",
 };
 
 function reducer(state, action) {
   let newState;
   switch (action.type) {
     case "toggleEditPlcInfo":
-      newState = { ...state, editPLC: !state.editPLC };
+      newState = {
+        ...state,
+        editMode: state.editMode === "" ? "editPlcInfo" : "",
+      };
+      break;
+    case "toggleAddVariable":
+      newState = {
+        ...state,
+        editMode: state.editMode === "" ? "addVariable" : "",
+      };
+      break;
+    case "addVariable":
+      newState = {
+        ...state,
+        variables: [...state.variables, action.payLoad],
+        editMode: "",
+      };
       break;
     case "updatePlcInfo":
       newState = { ...state, plcInfo: action.payLoad };
@@ -179,14 +195,14 @@ async function handleWriteVariable(plcVariable, value) {
 
 export default function App() {
   const [
-    { variables, plcInfo, selectedVariable, refreshTimeStamp, editPLC },
+    { variables, plcInfo, selectedVariable, refreshTimeStamp, editMode },
     dispatch,
   ] = useReducer(reducer, initialState);
 
   return (
     <Main>
       <Box>
-        <PlcInfo editMode={editPLC} info={plcInfo} dispatch={dispatch} />
+        <PlcInfo editMode={editMode} info={plcInfo} dispatch={dispatch} />
         <PlcList
           refreshTimeStamp={refreshTimeStamp}
           dispatch={dispatch}

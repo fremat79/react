@@ -5,18 +5,49 @@ import {
   faCheckToSlot,
   faPenToSquare,
   faCircleXmark,
-  faRotateLeft,
+  faSquarePlus,
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
-import { Form, Row, Col, Stack } from "react-bootstrap";
+import {
+  DropdownButton,
+  Dropdown,
+  Form,
+  Row,
+  Col,
+  Stack,
+} from "react-bootstrap";
+import { useState } from "react";
+
+const initialVariable = {
+  Name: "",
+  DB: "",
+  Type: "Select Type",
+  Address: 0,
+  DefaultValues: [],
+};
 
 function PlcInfo({ info, editMode, dispatch }) {
+  const [variable, setVariable] = useState(initialVariable);
+
   function handleUpdate(newState) {
     dispatch({
       type: "updatePlcInfo",
       payLoad: newState,
+    });
+  }
+
+  function handleAddVariableUpdate() {
+    dispatch({ type: "addVariable", payLoad: variable });
+    setVariable({
+      ...initialVariable,
+      Name: "",
+      DB: "",
+      Type: "Select Type",
+      Address: 0,
+      DefaultValues: [],
     });
   }
 
@@ -26,7 +57,7 @@ function PlcInfo({ info, editMode, dispatch }) {
         <Accordion.Item eventKey="0">
           <Accordion.Header>Plc info</Accordion.Header>
           <Accordion.Body>
-            {!editMode && (
+            {editMode === "" && (
               <>
                 <ul>
                   <li>
@@ -57,10 +88,14 @@ function PlcInfo({ info, editMode, dispatch }) {
                     onClick={() => dispatch({ type: "toggleEditPlcInfo" })}>
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </Button>
+                  <Button
+                    onClick={() => dispatch({ type: "toggleAddVariable" })}>
+                    <FontAwesomeIcon icon={faSquarePlus} />
+                  </Button>
                 </Stack>
               </>
             )}
-            {editMode && (
+            {editMode === "editPlcInfo" && (
               <>
                 <Form>
                   <Form.Group
@@ -121,6 +156,87 @@ function PlcInfo({ info, editMode, dispatch }) {
                   <Button
                     className="p-2 ms-auto"
                     onClick={() => dispatch({ type: "toggleEditPlcInfo" })}>
+                    <FontAwesomeIcon icon={faCircleXmark} />
+                  </Button>
+                </Stack>
+              </>
+            )}
+            {editMode === "addVariable" && (
+              <>
+                <Form>
+                  <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formHorizontalEmail">
+                    <Form.Label column sm={2}>
+                      Variable Name
+                    </Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                        placeholder="Enter variable name"
+                        value={variable.Name}
+                        onChange={(e) => {
+                          setVariable({ ...variable, Name: e.target.value });
+                        }}
+                      />
+                    </Col>
+                    <Form.Label column sm={2}>
+                      Data Block
+                    </Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                        value={variable.Port}
+                        onChange={(e) => {
+                          setVariable({ ...variable, DB: e.target.value });
+                        }}
+                        placeholder="Enter Data Block number"
+                      />
+                    </Col>
+                    <Form.Label column sm={2}>
+                      Type
+                    </Form.Label>
+                    <Col sm={10}>
+                      <DropdownButton
+                        style={{ marginTop: "10px", marginBottom: "10px" }}
+                        title={variable.Type}
+                        onSelect={(key, event) => {
+                          setVariable({ ...variable, Type: key });
+                        }}>
+                        {["Int", "Real", "Bool", "String"].map(
+                          (type, index) => {
+                            return (
+                              <Dropdown.Item key={index} eventKey={type}>
+                                {type}
+                              </Dropdown.Item>
+                            );
+                          }
+                        )}
+                      </DropdownButton>
+                    </Col>
+                    <Form.Label column sm={2}>
+                      Address
+                    </Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                        value={variable.Size}
+                        onChange={(e) => {
+                          setVariable({ ...variable, Address: e.target.value });
+                        }}
+                        placeholder="Enter variable size"
+                      />
+                    </Col>
+                  </Form.Group>
+                </Form>
+                <Stack direction="horizontal" gap={2}>
+                  <Button
+                    className="p-2 ms-auto"
+                    onClick={() => handleAddVariableUpdate()}>
+                    <FontAwesomeIcon icon={faCircleCheck} />
+                  </Button>
+
+                  <Button
+                    className=""
+                    onClick={() => dispatch({ type: "toggleAddVariable" })}>
                     <FontAwesomeIcon icon={faCircleXmark} />
                   </Button>
                 </Stack>
