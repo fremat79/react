@@ -7,6 +7,7 @@ import {
   faCircleXmark,
   faSquarePlus,
   faCircleCheck,
+  faCircleArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Accordion from "react-bootstrap/Accordion";
@@ -20,6 +21,7 @@ import {
   Stack,
 } from "react-bootstrap";
 import { useState } from "react";
+import { downloadAsJson } from "../App";
 
 const initialVariable = {
   Name: "",
@@ -91,6 +93,9 @@ function PlcInfo({ info, editMode, dispatch }) {
                   <Button
                     onClick={() => dispatch({ type: "toggleAddVariable" })}>
                     <FontAwesomeIcon icon={faSquarePlus} />
+                  </Button>
+                  <Button onClick={() => downloadAsJson()}>
+                    <FontAwesomeIcon icon={faCircleArrowDown} />
                   </Button>
                 </Stack>
               </>

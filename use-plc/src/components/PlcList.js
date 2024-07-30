@@ -4,13 +4,32 @@ import Accordion from "react-bootstrap/Accordion";
 import { useEffect, useState } from "react";
 import PlcVariable from "./PlcVariable";
 
-function PlcList({ refreshTimeStamp, variables, dispatch }) {
+function PlcList({ info, refreshTimeStamp, variables, dispatch }) {
   const [plcData, setPLCData] = useState([]);
 
   useEffect(() => {
     async function readVariables() {
       //const variable = `${plcVariable.Name}:${plcVariable.DB},${plcVariable.Type}${plcVariable.Address}`;
-      console.log("fetching data from PLC");
+      const data = {
+        plcInfo: info,
+        variables: variables,
+      };
+
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/readVariablesNew",
+          {
+            method: "POST", // Set the request method to POST
+            headers: {
+              "Content-Type": "application/json", // Indicate JSON payload
+            },
+            body: JSON.stringify(data), // Stringify and include the object in the request body
+          }
+        );
+      } catch (error) {
+        console.error("Error post readVariables:", error);
+      }
+
       try {
         const response = await fetch(`http://localhost:3001/api/readVariables`);
         const data = await response.json();

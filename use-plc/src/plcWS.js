@@ -19,6 +19,9 @@ app.get("/api/readVariables", async (req, res) => {
   //   IDStatoPosLoad: 34,
   // };
 
+  const plcVar = req.body;
+  console.log("post readVariables", plcVar);
+
   const plcData = await readPLC();
   res.status(200).json({ data: plcData });
 });
@@ -34,9 +37,30 @@ app.get("/api/readVariable", async (req, res) => {
   res.status(200).json({ data: plcData });
 });
 
+/*
+ *
+ */
+
+// Define a simple API endpoint
+app.post("/api/readVariablesNew", async (req, res) => {
+  // const plcData = {
+  //   StatoPosLoad: 32,
+  //   IDStatoPosLoad: 34,
+  // };
+
+  const plcVar = req.body;
+  console.log("post readVariablesNew", plcVar);
+
+  try {
+    const plcData = await readPLC();
+    res.status(200).json({ data: plcData });
+  } catch (error) {
+    res.status(500);
+  }
+});
+
 app.post("/api/writeVariable", async (req, res) => {
   const plcVar = req.body;
-
   console.log("post writeVariable", plcVar);
 
   try {

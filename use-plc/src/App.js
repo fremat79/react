@@ -4,9 +4,21 @@ import Box from "./components/Box"; // Import the Box component
 
 import "./index.css";
 import { useReducer } from "react";
+import { useDropzone } from "react-dropzone";
 import PlcValue from "./components/PlcValue";
 import PlcList from "./components/PlcList";
 import PlcInfo from "./components/PlcInfo";
+
+function downloadAsJson() {
+  const data = JSON.stringify(initialState);
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "plcConfig.json";
+  link.click();
+  URL.revokeObjectURL(url);
+}
 
 const initialState = {
   plcInfo: {
@@ -137,6 +149,9 @@ const initialState = {
 function reducer(state, action) {
   let newState;
   switch (action.type) {
+    case "setState":
+      newState = action.payload;
+      break;
     case "toggleEditPlcInfo":
       newState = {
         ...state,
@@ -193,19 +208,50 @@ async function handleWriteVariable(plcVariable, value) {
   const json = await response.json(); // Parse JSON response}
 }
 
-export default function App() {
+function App() {
   const [
     { variables, plcInfo, selectedVariable, refreshTimeStamp, editMode },
     dispatch,
   ] = useReducer(reducer, initialState);
 
+  function onDrop(acceptedFiles) {
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const fileContent = e.target.result;
+        const parsedData = JSON.parse(fileContent);
+        dispatch({ type: "setState", payload: parsedData });
+      } catch (error) {
+        console.error("Error parsing JSON file:", error);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
     <Main>
       <Box>
+        <div
+          {...getRootProps()}
+          style={{
+            border: isDragActive ? "2px dashed #000" : "2px solid #ccc",
+            padding: "20px",
+            textAlign: "center",
+          }}>
+          <input {...getInputProps()} />
+          {isDragActive
+            ? "Drop the file here..."
+            : "Drag and drop a file here, or click to select a file"}
+        </div>
+
         <PlcInfo editMode={editMode} info={plcInfo} dispatch={dispatch} />
         <PlcList
           refreshTimeStamp={refreshTimeStamp}
           dispatch={dispatch}
+          info={plcInfo}
           variables={variables}
         />
       </Box>
@@ -219,3 +265,5 @@ export default function App() {
     </Main>
   );
 }
+
+export { App, downloadAsJson };
