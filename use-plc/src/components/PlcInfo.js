@@ -81,6 +81,7 @@ function PlcInfo({ info, editMode, dispatch }) {
                 </ul>
                 <Stack direction="horizontal" gap={2}>
                   <Button
+                    disabled={info.host === "0"}
                     className="p-2 ms-auto"
                     onClick={() => dispatch({ type: "refresh" })}
                     variant="success">

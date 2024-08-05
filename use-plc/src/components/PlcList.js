@@ -10,6 +10,9 @@ function PlcList({ info, refreshTimeStamp, variables, dispatch }) {
   useEffect(() => {
     async function readVariables() {
       //const variable = `${plcVariable.Name}:${plcVariable.DB},${plcVariable.Type}${plcVariable.Address}`;
+
+      if (variables.length === 0) return;
+
       const data = {
         plcInfo: info,
         variables: variables,
@@ -19,24 +22,29 @@ function PlcList({ info, refreshTimeStamp, variables, dispatch }) {
         const response = await fetch(
           "http://localhost:3001/api/readVariablesNew",
           {
-            method: "POST", // Set the request method to POST
+            method: "POST",
             headers: {
-              "Content-Type": "application/json", // Indicate JSON payload
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify(data), // Stringify and include the object in the request body
+            body: JSON.stringify(data),
           }
         );
-      } catch (error) {
-        console.error("Error post readVariables:", error);
+        const json = await response.json();
+        setPLCData(json.data);
+      } catch (err) {
+        dispatch({
+          type: "showErrorToast",
+          payload: `😥️ Error reading variables: ${err.message}`,
+        });
       }
 
-      try {
-        const response = await fetch(`http://localhost:3001/api/readVariables`);
-        const data = await response.json();
-        setPLCData(data.data);
-      } catch (error) {
-        //console.error("Error reading:", error);
-      }
+      // try {
+      //   const response = await fetch(`http://localhost:3001/api/readVariables`);
+      //   const data = await response.json();
+      //   setPLCData(data.data);
+      // } catch (error) {
+      //   //console.error("Error reading:", error);
+      // }
     }
     readVariables();
   }, [refreshTimeStamp]);
