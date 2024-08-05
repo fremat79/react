@@ -37,7 +37,7 @@ const initialState = {
       DefaultValues: [
         { Name: "Libera", Value: 1 },
         { Name: "Occupata", Value: 2 },
-        { Name: "Occupata da evacuare", Value: 2 },
+        { Name: "Occupata da evacuare", Value: 3 },
         { Name: "Occcupata Prep.carico", Value: 4 },
         { Name: "Occupata Prep carico conclusa", Value: 5 },
       ],
@@ -54,7 +54,14 @@ const initialState = {
       DB: "DB1067",
       Type: "INT",
       Address: 4,
-      DefaultValues: [],
+      DefaultValues: [
+        { Name: "Pronto", Value: 1 },
+        { Name: "Pre-Riscaldo-On", Value: 2 },
+        { Name: "Trattamento-On", Value: 3 },
+        { Name: "Ciclo-Terminato-Bene", Value: 4 },
+        { Name: "Cilco-Abortito", Value: 5 },
+        { Name: "Ciclo-Scarico-InCorso", Value: 6 },
+      ],
     },
     {
       Name: "IDTrattForno",
@@ -240,7 +247,8 @@ function App() {
             border: isDragActive ? "2px dashed #000" : "2px solid #ccc",
             padding: "20px",
             textAlign: "center",
-          }}>
+          }}
+        >
           <input {...getInputProps()} />
           {isDragActive
             ? "Drop the file here..."

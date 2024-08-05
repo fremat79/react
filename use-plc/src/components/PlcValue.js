@@ -32,7 +32,8 @@ function PlcValue({ onWriteVariable, variable, dispatch }) {
           onClick={() => dispatch({ type: "select", payLoad: variable })}
           as="li"
           className="plcValueInfo"
-          key={variable.Name}>
+          key={variable.Name}
+        >
           {variable.DefaultValues?.length === 0 && (
             <>
               <Form>
@@ -55,7 +56,7 @@ function PlcValue({ onWriteVariable, variable, dispatch }) {
             </>
           )}
           {variable?.DefaultValues?.length > 0 && (
-            <Stack direction="horizontal" gap={3}>
+            <Stack direction="vertical" gap={3}>
               <PlcDefaultValues
                 onWriteDefaultValue={handleWriteDefaultValue}
                 variable={variable}
