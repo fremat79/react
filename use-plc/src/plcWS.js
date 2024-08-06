@@ -93,20 +93,16 @@ async function readPLC(plcVar = null) {
       return acc;
     }, vars);
 
+    console.log(vars);
+
     plc.initiateConnection(connParams, (err) => {
-      // Step 5: Connect to the PLC
       if (err) {
         reject(`Error while connect to plc: ${err.message}`);
         return;
       }
 
-      if (!plcVar) {
-        plc.setTranslationCB((tag) => vars[tag]); // Maps variable names
-        plc.addItems(Object.keys(vars)); // Add variables to read/write list
-      } else {
-        plc.setTranslationCB((tag) => plcVar[tag]); // Maps variable names
-        plc.addItems(Object.keys(plcVar)); // Add variables to read/write list
-      }
+      plc.setTranslationCB((tag) => vars[tag]); // will be called readAllItems
+      plc.addItems(Object.keys(vars)); // Add variables to read/write list
 
       plc.readAllItems((error, values) => {
         if (error) {

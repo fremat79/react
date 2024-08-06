@@ -3,13 +3,12 @@ import Main from "./components/Main"; // Import the Main component
 import Box from "./components/Box"; // Import the Box component
 
 import "./index.css";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { useDropzone } from "react-dropzone";
 import PlcValue from "./components/PlcValue";
 import PlcList from "./components/PlcList";
 import PlcInfo from "./components/PlcInfo";
 import { Toast, ToastContainer } from "react-bootstrap";
-import { faBriefcaseClock } from "@fortawesome/free-solid-svg-icons";
 
 function downloadAsJson() {
   const data = JSON.stringify(initialState);
@@ -21,144 +20,6 @@ function downloadAsJson() {
   link.click();
   URL.revokeObjectURL(url);
 }
-
-// const initialState = {
-//   plcInfo: {
-//     port: 102, // Common port for Siemens PLCs
-//     host: "10.64.0.93", // Replace with your PLC's IP address
-//     rack: 0, // Rack number (for S7-300/400)
-//     slot: 2, // Slot number (for S7-300/400)
-//   },
-//   plcServer: null,
-//   variables: [
-//     {
-//       Name: "StatoPosLoad",
-//       DB: "DB1067",
-//       Type: "INT",
-//       Address: 0,
-//       DefaultValues: [
-//         { Name: "Libera", Value: 1 },
-//         { Name: "Occupata", Value: 2 },
-//         { Name: "Occupata da evacuare", Value: 3 },
-//         { Name: "Occcupata Prep.carico", Value: 4 },
-//         { Name: "Occupata Prep carico conclusa", Value: 5 },
-//       ],
-//     },
-//     {
-//       Name: "IDStatoPosLoad",
-//       DB: "DB1067",
-//       Type: "INT",
-//       Address: 2,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "StatoForno",
-//       DB: "DB1067",
-//       Type: "INT",
-//       Address: 4,
-//       DefaultValues: [
-//         { Name: "Pronto", Value: 1 },
-//         { Name: "Pre-Riscaldo-On", Value: 2 },
-//         { Name: "Trattamento-On", Value: 3 },
-//         { Name: "Ciclo-Terminato-Bene", Value: 4 },
-//         { Name: "Cilco-Abortito", Value: 5 },
-//         { Name: "Ciclo-Scarico-InCorso", Value: 6 },
-//       ],
-//     },
-//     {
-//       Name: "IDTrattForno",
-//       DB: "DB1067",
-//       Type: "INT",
-//       Address: 6,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "TzZ1Bruc",
-//       DB: "DB1067",
-//       Type: "REAL",
-//       Address: 8,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "TzZ1Vent",
-//       DB: "DB1067",
-//       Type: "REAL",
-//       Address: 12,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "TzZ1Tetto",
-//       DB: "DB1067",
-//       Type: "REAL",
-//       Address: 16,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "SPZ1",
-//       DB: "DB1067",
-//       Type: "REAL",
-//       Address: 20,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "TzZ2Bruc",
-//       DB: "DB1067",
-//       Type: "REAL",
-//       Address: 24,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "TzZ2Vent",
-//       DB: "DB1067",
-//       Type: "REAL",
-//       Address: 28,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "TzZ2Tetto",
-//       DB: "DB1067",
-//       Type: "REAL",
-//       Address: 32,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "SPZ2",
-//       DB: "DB1067",
-//       Type: "REAL",
-//       Address: 36,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "M3Gas",
-//       DB: "DB1067",
-//       Type: "REAL",
-//       Address: 40,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "IDTrattReq",
-//       DB: "DB1067",
-//       Type: "INT",
-//       Address: 44,
-//       DefaultValues: [],
-//     },
-//     {
-//       Name: "FlagReq",
-//       DB: "DB1067",
-//       Type: "INT",
-//       Address: 46,
-//       DefaultValues: [],
-//     },
-//   ],
-//   selectedVariable: null,
-//   refreshTimeStamp: Date.now(),
-//   editMode: "",
-//   toast: {
-//     show: false,
-//     message: "",
-//     bg: "dark",
-//   },
-// };
 
 const initialState = {
   plcInfo: { host: "0" },
@@ -175,8 +36,11 @@ const initialState = {
 };
 
 function reducer(state, action) {
-  let newState;
+  let newState = state;
   switch (action.type) {
+    case "saveLocalStorage":
+      localStorage.setItem("plcConfig", JSON.stringify(state));
+      break;
     case "showErrorToast":
       newState = {
         ...state,
@@ -264,6 +128,11 @@ async function handleWriteVariable(dispatch, plcVariable, plcInfo, value) {
         type: "showErrorToast",
         payload: "😥️ Error writing variable",
       });
+    } else {
+      dispatch({
+        type: "showInfoToast",
+        payload: "🎉️ Variable successfully written to PLC",
+      });
     }
   } catch (err) {
     dispatch({
@@ -274,6 +143,11 @@ async function handleWriteVariable(dispatch, plcVariable, plcInfo, value) {
 }
 
 function App() {
+  function loadFromLocalStorage(initialState) {
+    const savedState = localStorage.getItem("plcConfig");
+    return savedState ? JSON.parse(savedState) : initialState;
+  }
+
   const [
     {
       toast: { show: showToast },
@@ -286,7 +160,7 @@ function App() {
       editMode,
     },
     dispatch,
-  ] = useReducer(reducer, initialState);
+  ] = useReducer(reducer, initialState, loadFromLocalStorage);
 
   function onDrop(acceptedFiles) {
     const file = acceptedFiles[0];
@@ -302,8 +176,9 @@ function App() {
     };
     reader.readAsText(file);
   }
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -315,7 +190,8 @@ function App() {
               border: isDragActive ? "2px dashed #000" : "2px solid #ccc",
               padding: "20px",
               textAlign: "center",
-            }}>
+            }}
+          >
             <input {...getInputProps()} />
             {isDragActive
               ? "Drop the file here..."
@@ -346,7 +222,8 @@ function App() {
             onClose={() => {
               dispatch({ type: "hideToast" });
             }}
-            onExit={() => dispatch({ type: "hideToast" })}>
+            onExit={() => dispatch({ type: "hideToast" })}
+          >
             <Toast.Body>{toastMessage}</Toast.Body>
           </Toast>
         </ToastContainer>

@@ -8,6 +8,7 @@ import {
   faSquarePlus,
   faCircleCheck,
   faCircleArrowDown,
+  faFloppyDisk,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Accordion from "react-bootstrap/Accordion";
@@ -84,19 +85,27 @@ function PlcInfo({ info, editMode, dispatch }) {
                     disabled={info.host === "0"}
                     className="p-2 ms-auto"
                     onClick={() => dispatch({ type: "refresh" })}
-                    variant="success">
+                    variant="success"
+                  >
                     Read all
                   </Button>
                   <Button
-                    onClick={() => dispatch({ type: "toggleEditPlcInfo" })}>
+                    onClick={() => dispatch({ type: "toggleEditPlcInfo" })}
+                  >
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </Button>
                   <Button
-                    onClick={() => dispatch({ type: "toggleAddVariable" })}>
+                    onClick={() => dispatch({ type: "toggleAddVariable" })}
+                  >
                     <FontAwesomeIcon icon={faSquarePlus} />
                   </Button>
                   <Button onClick={() => downloadAsJson()}>
                     <FontAwesomeIcon icon={faCircleArrowDown} />
+                  </Button>
+                  <Button
+                    onClick={() => dispatch({ type: "saveLocalStorage" })}
+                  >
+                    <FontAwesomeIcon icon={faFloppyDisk} />
                   </Button>
                 </Stack>
               </>
@@ -107,7 +116,8 @@ function PlcInfo({ info, editMode, dispatch }) {
                   <Form.Group
                     as={Row}
                     className="mb-3"
-                    controlId="formHorizontalEmail">
+                    controlId="formHorizontalEmail"
+                  >
                     <Form.Label column sm={2}>
                       Address
                     </Form.Label>
@@ -161,7 +171,8 @@ function PlcInfo({ info, editMode, dispatch }) {
                 <Stack direction="horizontal" gap={2}>
                   <Button
                     className="p-2 ms-auto"
-                    onClick={() => dispatch({ type: "toggleEditPlcInfo" })}>
+                    onClick={() => dispatch({ type: "toggleEditPlcInfo" })}
+                  >
                     <FontAwesomeIcon icon={faCircleXmark} />
                   </Button>
                 </Stack>
@@ -173,7 +184,8 @@ function PlcInfo({ info, editMode, dispatch }) {
                   <Form.Group
                     as={Row}
                     className="mb-3"
-                    controlId="formHorizontalEmail">
+                    controlId="formHorizontalEmail"
+                  >
                     <Form.Label column sm={2}>
                       Variable Name
                     </Form.Label>
@@ -207,7 +219,8 @@ function PlcInfo({ info, editMode, dispatch }) {
                         title={variable.Type}
                         onSelect={(key, event) => {
                           setVariable({ ...variable, Type: key });
-                        }}>
+                        }}
+                      >
                         {["Int", "Real", "Bool", "String"].map(
                           (type, index) => {
                             return (
@@ -236,13 +249,15 @@ function PlcInfo({ info, editMode, dispatch }) {
                 <Stack direction="horizontal" gap={2}>
                   <Button
                     className="p-2 ms-auto"
-                    onClick={() => handleAddVariableUpdate()}>
+                    onClick={() => handleAddVariableUpdate()}
+                  >
                     <FontAwesomeIcon icon={faCircleCheck} />
                   </Button>
 
                   <Button
                     className=""
-                    onClick={() => dispatch({ type: "toggleAddVariable" })}>
+                    onClick={() => dispatch({ type: "toggleAddVariable" })}
+                  >
                     <FontAwesomeIcon icon={faCircleXmark} />
                   </Button>
                 </Stack>
