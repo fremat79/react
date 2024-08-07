@@ -9,6 +9,7 @@ import {
   faCircleCheck,
   faCircleArrowDown,
   faFloppyDisk,
+  faFile,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Accordion from "react-bootstrap/Accordion";
@@ -99,13 +100,16 @@ function PlcInfo({ info, editMode, dispatch }) {
                   >
                     <FontAwesomeIcon icon={faSquarePlus} />
                   </Button>
-                  <Button onClick={() => downloadAsJson()}>
+                  <Button onClick={() => dispatch({ type: "download" })}>
                     <FontAwesomeIcon icon={faCircleArrowDown} />
                   </Button>
                   <Button
                     onClick={() => dispatch({ type: "saveLocalStorage" })}
                   >
                     <FontAwesomeIcon icon={faFloppyDisk} />
+                  </Button>
+                  <Button onClick={() => dispatch({ type: "new" })}>
+                    <FontAwesomeIcon icon={faFile} />
                   </Button>
                 </Stack>
               </>
@@ -255,7 +259,6 @@ function PlcInfo({ info, editMode, dispatch }) {
                   </Button>
 
                   <Button
-                    className=""
                     onClick={() => dispatch({ type: "toggleAddVariable" })}
                   >
                     <FontAwesomeIcon icon={faCircleXmark} />

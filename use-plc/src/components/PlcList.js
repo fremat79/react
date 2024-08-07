@@ -1,6 +1,4 @@
 import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
-import Accordion from "react-bootstrap/Accordion";
 import { useEffect, useState } from "react";
 import PlcVariable from "./PlcVariable";
 

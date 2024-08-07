@@ -10,17 +10,6 @@ import PlcList from "./components/PlcList";
 import PlcInfo from "./components/PlcInfo";
 import { Toast, ToastContainer } from "react-bootstrap";
 
-function downloadAsJson() {
-  const data = JSON.stringify(initialState);
-  const blob = new Blob([data], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "plcConfig.json";
-  link.click();
-  URL.revokeObjectURL(url);
-}
-
 const initialState = {
   plcInfo: { host: "0" },
   plcServer: null,
@@ -38,6 +27,21 @@ const initialState = {
 function reducer(state, action) {
   let newState = state;
   switch (action.type) {
+    case "download":
+      const data = JSON.stringify(state);
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "plcConfig.json";
+      link.click();
+      URL.revokeObjectURL(url);
+      break;
+    case "new":
+      localStorage.removeItem("plcConfig");
+      // need to update state to trigger re-render
+      newState = initialState;
+      break;
     case "saveLocalStorage":
       localStorage.setItem("plcConfig", JSON.stringify(state));
       break;
@@ -90,6 +94,7 @@ function reducer(state, action) {
         variables: [...state.variables, action.payLoad],
         editMode: "",
       };
+      console.log("add to variables", action.payLoad);
       break;
     case "updatePlcInfo":
       newState = { ...state, plcInfo: action.payLoad };
@@ -232,4 +237,4 @@ function App() {
   );
 }
 
-export { App, downloadAsJson };
+export { App };
