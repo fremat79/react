@@ -3,7 +3,7 @@ import Main from "./components/Main"; // Import the Main component
 import Box from "./components/Box"; // Import the Box component
 
 import "./index.css";
-import { useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { useDropzone } from "react-dropzone";
 import PlcValue from "./components/PlcValue";
 import PlcList from "./components/PlcList";
@@ -148,6 +148,8 @@ async function handleWriteVariable(dispatch, plcVariable, plcInfo, value) {
 }
 
 function App() {
+  //const contex = createContext();
+
   function loadFromLocalStorage(initialState) {
     const savedState = localStorage.getItem("plcConfig");
     return savedState ? JSON.parse(savedState) : initialState;
