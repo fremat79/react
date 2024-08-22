@@ -31,7 +31,6 @@ jobs:
 
     - name: Build the React app
       run: CI=false npm run build
-      run: npm run build
       working-directory: ./use-plc
 
     - name: Run tests
