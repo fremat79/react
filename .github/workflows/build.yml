@@ -27,10 +27,13 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: ./use-plc
 
     - name: Build the React app
       run: npm run build
+      working-directory: ./use-plc
 
     - name: Run tests
       run: npm test
+      working-directory: ./use-plc
 
