@@ -20,7 +20,7 @@ const initialState = {
   toast: {
     show: false,
     message: "",
-    bg: "dark1",
+    bg: "dark",
   },
 };
 
