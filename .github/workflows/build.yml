@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     strategy:
       matrix:
         node-version: [18.x]
@@ -30,6 +30,7 @@ jobs:
       working-directory: ./use-plc
 
     - name: Build the React app
+      run: CI=false npm run build
       run: npm run build
       working-directory: ./use-plc
 
