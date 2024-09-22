@@ -6,9 +6,10 @@ import PlcDefaultValues from "./PlcDefaultValues";
 
 import { useRef, useState } from "react";
 
-function PlcValue({ onWriteVariable, variable, dispatch }) {
+function PlcValue({ onWriteVariable, info, variable, dispatch }) {
   const valueRef = useRef(0);
   const [isValid, setIsValid] = useState(true);
+
   function handleWriteClick() {
     const value = valueRef.current.value;
     // Step 2: Check if the value is valid (e.g., not empty)
@@ -17,11 +18,10 @@ function PlcValue({ onWriteVariable, variable, dispatch }) {
       return; // Prevent further execution
     }
     setIsValid(true); // Reset validation state on valid input
-    onWriteVariable(variable, valueRef.current.value);
+    onWriteVariable(dispatch, variable, info, valueRef.current.value);
   }
   function handleWriteDefaultValue(plcVariable, value) {
-    onWriteVariable(variable, value);
-    //dispatch({ type: "refresh" });
+    onWriteVariable(dispatch, variable, info, value);
   }
 
   return (
@@ -31,15 +31,14 @@ function PlcValue({ onWriteVariable, variable, dispatch }) {
           onClick={() => dispatch({ type: "select", payLoad: variable })}
           as="li"
           className="plcValueInfo"
-          key={variable.Name}
-        >
+          key={variable.Name}>
           {variable.DefaultValues?.length === 0 && (
             <>
               <Form>
                 <Form.Group className="mb-3">
                   <Form.Label>{variable.Name}</Form.Label>
                   <Form.Control
-                    isInvalid={!isValid} // Step 1: Add validation state as
+                    isInvalid={!isValid}
                     required
                     ref={valueRef}
                     placeholder="insert value here"
@@ -55,7 +54,7 @@ function PlcValue({ onWriteVariable, variable, dispatch }) {
             </>
           )}
           {variable?.DefaultValues?.length > 0 && (
-            <Stack direction="horizontal" gap={3}>
+            <Stack direction="vertical" gap={3}>
               <PlcDefaultValues
                 onWriteDefaultValue={handleWriteDefaultValue}
                 variable={variable}

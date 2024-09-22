@@ -5,9 +5,9 @@ export default function PlcDefaultValues({ variable, onWriteDefaultValue }) {
   return variable.DefaultValues.map((dv, index) => {
     return (
       <Button
+        key={index}
         onClick={() => onWriteDefaultValue(variable, dv.Value)}
-        variant="primary"
-      >
+        variant="primary">
         <Badge bg="secondary">{dv.Value}</Badge>
         {dv.Name}
       </Button>
