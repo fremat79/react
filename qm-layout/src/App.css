@@ -1,0 +1,225 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --body-color: #e4e9f7;
+  --sidebar-color: #ffff;
+  --primary-color: #695cfe;
+  --primary-color-light: #f6f5ff;
+  --toggle-color: #ddd;
+  --text-color: #707070;
+
+  --tran03: all 0.2s ease;
+  --tran04: all 0.3s ease;
+  --tran05: all 0.4s ease;
+  --tran06: all 0.5s ease;
+}
+
+body {
+  height: 100vh;
+  background: var(--body-color);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: auto;
+  padding: 10px 20px;
+  background: var(--sidebar-color);
+  transition: var(--tran05);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar .text {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.sidebar header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  position: relative;
+}
+
+.sidebar header .header-text .app-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.sidebar img {
+  width: 50px;
+  border-radius: 6px;
+}
+
+.sidebar header .toggle {
+  position: absolute;
+  top: 50%;
+  right: -45px;
+  transform: translateY(-50%);
+  height: 50px;
+  width: 50px;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--sidebar-color);
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.sidebar .menu-bar {
+  margin-top: 20px;
+}
+
+.sidebar li {
+  height: auto;
+  margin-top: 0px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.sidebar li .icon {
+  min-width: 60px;
+  height: 40px;
+}
+
+.sidebar li .text,
+.sidebar li .icon {
+  font-size: 30px;
+  color: var(--text-color);
+  transition: var(--tran03);
+}
+
+.sidebar li a {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: var(--tran04);
+}
+
+.sidebar li:hover {
+  background: var(--primary-color);
+  transition: var(--tran05);
+  border-radius: 6px;
+}
+
+.sidebar li a:hover .icon,
+.sidebar li a:hover .text {
+  color: var(--sidebar-color);
+}
+
+/*Closed sidebar*/
+
+.sidebar.close {
+  width: 90px;
+  padding: 5px;
+  transition: var(--tran05);
+}
+
+.sidebar.close img {
+  width: 40px;
+  border-radius: 6px;
+}
+
+.sidebar.close .menu-bar .menu li .nav-text {
+  display: none;
+}
+/* .sidebar.close header {
+  justify-content: space-around;
+} */
+
+.sidebar.close header .header-text {
+  display: none;
+}
+
+.sidebar.close header .header-text .app-name {
+  display: none;
+}
+
+.sidebar.close header .toggle {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  height: 25px;
+  width: 25px;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--sidebar-color);
+  font-size: 15px;
+}
+
+/* Media query for vertical sidebar layout */
+@media (max-width: 500px) {
+  .sidebar.close,
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    padding: 10px 20px;
+    background: var(--sidebar-color);
+    transition: var(--tran05);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    transition: var(--tran05);
+  }
+  .sidebar.close .menu-bar,
+  .sidebar .menu-bar {
+    margin-top: 0px;
+  }
+  .sidebar.close li .icon,
+  .sidebar li .icon {
+    min-width: 55px;
+    height: 40px;
+  }
+  .sidebar.close header .header-text,
+  .sidebar header .header-text {
+    display: none;
+  }
+  .sidebar.close .menu-bar .menu ul li,
+  .sidebar .menu-bar .menu ul li {
+    float: left;
+  }
+  .sidebar.close .menu-bar .menu ul li .nav-text,
+  .sidebar .menu-bar .menu ul li .nav-text {
+    display: none;
+  }
+  .sidebar.close header .toggle,
+  .sidebar header .toggle {
+    display: none;
+  }
+}
+@media (max-width: 380px) {
+  .sidebar.close li .icon,
+  .sidebar li .icon {
+    min-width: 40px;
+    height: 30px;
+  }
+  .sidebar img {
+    width: 30px;
+    border-radius: 6px;
+  }
+}
