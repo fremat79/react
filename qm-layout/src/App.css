@@ -223,3 +223,10 @@ body {
     border-radius: 6px;
   }
 }
+
+.app-layout {
+  display: grid;
+  grid-template-columns: auto 1fr; /* 2 columns */
+  grid-template-rows: 50vh 1fr; /* 2 rows */
+  gap: 10px; /* Optional: Add some space between grid items */
+}
