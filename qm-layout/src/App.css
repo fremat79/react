@@ -36,6 +36,9 @@ body {
   background: var(--sidebar-color);
   transition: var(--tran05);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
 }
 
 .sidebar .text {
@@ -226,7 +229,7 @@ body {
 
 .app-layout {
   display: grid;
-  grid-template-columns: auto 1fr; /* 2 columns */
+  grid-template-columns: auto 100vw; /* 2 columns */
   grid-template-rows: 50vh 1fr; /* 2 rows */
   gap: 10px; /* Optional: Add some space between grid items */
 }

@@ -1,13 +1,6 @@
 import { cloneElement, createContext, useContext, useState } from "react";
 import { Tooltip } from "react-tooltip";
-import {
-  IoHomeSharp,
-  IoBarChartSharp,
-  IoBookSharp,
-  IoExtensionPuzzleOutline,
-  IoArrowForwardCircle,
-  IoArrowBackCircle,
-} from "react-icons/io5";
+import { IoArrowForwardCircle, IoArrowBackCircle } from "react-icons/io5";
 
 const SideBarContext = createContext();
 
