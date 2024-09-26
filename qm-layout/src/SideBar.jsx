@@ -1,6 +1,13 @@
-import { cloneElement, createContext, useContext, useState } from "react";
-import { Tooltip } from "react-tooltip";
-import { IoArrowForwardCircle, IoArrowBackCircle } from "react-icons/io5";
+import { cloneElement, createContext, useContext, useState } from 'react';
+import { Tooltip } from 'react-tooltip';
+import {
+  IoHomeSharp,
+  IoBarChartSharp,
+  IoBookSharp,
+  IoExtensionPuzzleOutline,
+  IoArrowForwardCircle,
+  IoArrowBackCircle,
+} from 'react-icons/io5';
 
 const SideBarContext = createContext();
 
@@ -13,9 +20,9 @@ export default function SideBar({ children }) {
 
   return (
     <SideBarContext.Provider value={{ closed }}>
-      <nav className={closed ? "sidebar close" : "sidebar"}>
+      <nav className={closed ? 'sidebar close' : 'sidebar'}>
         <header>
-          <img src="logo.png" alt="company logo" />
+          <img src="logo.svg" alt="company logo" />
           <div className="text header-text">
             <span className="app-name">Quick Monitor</span>
           </div>
@@ -46,9 +53,9 @@ function SideBarItem({ icon, pageName, toolTip }) {
       <a
         href={pageName}
         data-tooltip-id="my-tooltip"
-        data-tooltip-content={closed ? toolTip : ""}
+        data-tooltip-content={closed ? toolTip : ''}
       >
-        {cloneElement(icon, { className: "icon" })}
+        {cloneElement(icon, { className: 'icon' })}
         <span className="text nav-text">{pageName}</span>
       </a>
     </li>
