@@ -1,18 +1,23 @@
-export default function Post({ style }) {
+import { useEffect, useState } from "react";
+
+export default function Post({ id, style }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const randomAngle = Math.random() * 34 - 12; // Generates a number between -12 and 12
+  const randomPostId = id ?? Math.floor(Math.random() * 8 + 1); // Generates a number between 1 and 2
+  const styleRotated = { ...style, transform: `rotate(${randomAngle}deg)` };
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setIsVisible(true);
+  //   }, 500);
+  // }, []);
+
   return (
-    <div style={style} className="image-container">
-      <img src="./wowPosts/wow1.svg" alt="post" />
-      <div className="overlay-text">
+    <div style={styleRotated} className="image-container">
+      <img src={`./wowPosts/wow${randomPostId}.svg`} alt="post" />
+      <div className={`overlay-text overlay-text-${randomPostId}`}>
         Lorem Ipsum è un testo segnaposto utilizzato nel settore della
         dasdasdasds dasd asdasdasd
-        <a href="https://emoji.gg/emoji/49142-milkandmochalove6">
-          <img
-            src="https://cdn3.emoji.gg/emojis/49142-milkandmochalove6.gif"
-            width="64px"
-            height="64px"
-            alt="milkandmochalove6"
-          />
-        </a>
       </div>
     </div>
   );

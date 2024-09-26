@@ -22,7 +22,7 @@ function calculateRandomPositions(numPosts, maxWidth, maxHeight, minSpacing) {
       x = Math.random() * maxWidth;
       y = Math.random() * maxHeight;
     } while (isOverlapping(x, y));
-    positions.push({ top: `${y}px`, left: `${x}px`, zIndex: i });
+    positions.push({ top: `${y}px`, left: `${x}px` });
   }
 
   return positions;
@@ -42,14 +42,17 @@ function App() {
   );
 
   return (
-    <WowBoards>
-      {positions.map((style, index) => (
-        <Post
-          key={index}
-          style={{ zIndex: index, position: "absolute", ...style }}
-        />
-      ))}
-    </WowBoards>
+    <>
+      <WowBoards>
+        {positions.map((style, index) => (
+          <Post
+            key={index}
+            style={{ zIndex: index, position: "absolute", ...style }}
+          />
+        ))}
+      </WowBoards>
+      <div className="heart-container"></div>
+    </>
   );
 }
 

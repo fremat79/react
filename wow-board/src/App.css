@@ -12,10 +12,6 @@
 
 .overlay-text {
   position: absolute;
-  top: 80px;
-  left: 60px;
-  width: 250px;
-  height: 200px;
   color: black;
   pointer-events: none; /* Ensure the text doesn't interfere with image interactions */
   font-family: "Reenie Beanie", cursive;
@@ -23,8 +19,110 @@
   font-weight: 700;
 }
 
+.overlay-text-1 {
+  top: 80px;
+  left: 60px;
+  width: 250px;
+  height: 200px;
+}
+
+.overlay-text-2 {
+  top: 60px;
+  left: 40px;
+  width: 240px;
+  height: 300px;
+}
+
+.overlay-text-3 {
+  top: 50px;
+  left: 14px;
+  width: 225px;
+  height: 250px;
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+  transform: rotate(3deg);
+}
+
+.overlay-text-4 {
+  top: 65px;
+  left: 34px;
+  width: 260px;
+  height: 240px;
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+}
+
+.overlay-text-5 {
+  top: 65px;
+  left: 34px;
+  width: 260px;
+  height: 240px;
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+}
+
+.overlay-text-6 {
+  top: 65px;
+  left: 34px;
+  width: 260px;
+  height: 150px;
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+}
+
+.overlay-text-7 {
+  top: 55px;
+  left: 14px;
+  width: 250px;
+  height: 210px;
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+}
+
+.overlay-text-8 {
+  top: 35px;
+  left: 14px;
+  width: 300px;
+  height: 225px;
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+}
+
 .wowBoard {
   position: relative;
   width: 100vw;
   height: 100vh;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.show {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/*test*/
+
+.heart-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  clip-path: path(
+    "m 229.759,549.233 c -1.561,5.66 -5.107,19.47 -5.107,19.47 0,0 -3.797,-9.04 -8.484,-19.551 -49.334,-0.299 -98.542,-0.677 -138.12,-1.142 -2.73,17.675 -0.842,40.758 5.347,62.701 8.107,28.743 30.217,58.714 64.609,91.141 34.392,32.427 76.647,49.87 76.647,49.87 0,0 42.745,-28.743 46.283,-30.708 3.538,-1.965 46.823,-38.078 53.456,-43.237 6.633,-5.159 28.743,-32.182 38.324,-41.763 9.581,-9.581 21.127,-40.78 23.829,-51.344 1.867,-7.3 1.856,-19.176 -1.733,-34.734 -40.364,-0.139 -97.181,-0.368 -155.051,-0.703 z"
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  background: rebeccapurple;
 }
