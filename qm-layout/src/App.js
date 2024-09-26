@@ -14,28 +14,30 @@ import {
 function App() {
   return (
     <>
-      <SideBar>
-        <SideBar.Item
-          pageName="Dashboard"
-          icon={<IoHomeSharp />}
-          toolTip="Dashboard"
-        />
-        <SideBar.Item
-          pageName="Configurazione"
-          icon={<IoExtensionPuzzleOutline />}
-          toolTip="Configurazione"
-        />
-        <SideBar.Item
-          pageName="Stato macchine"
-          icon={<IoBookSharp />}
-          toolTip="Stato macchine"
-        />
-        <SideBar.Item
-          pageName="Statistiche"
-          icon={<IoBarChartSharp />}
-          toolTip="Statistiche"
-        />
-      </SideBar>
+      <div className="app-layout">
+        <SideBar>
+          <SideBar.Item
+            pageName="Dashboard"
+            icon={<IoHomeSharp />}
+            toolTip="Dashboard"
+          />
+          <SideBar.Item
+            pageName="Configurazione"
+            icon={<IoExtensionPuzzleOutline />}
+            toolTip="Configurazione"
+          />
+          <SideBar.Item
+            pageName="Stato macchine"
+            icon={<IoBookSharp />}
+            toolTip="Stato macchine"
+          />
+          <SideBar.Item
+            pageName="Statistiche"
+            icon={<IoBarChartSharp />}
+            toolTip="Statistiche"
+          />
+        </SideBar>
+      </div>
     </>
   );
 }
