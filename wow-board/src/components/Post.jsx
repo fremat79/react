@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function Post({ id, style }) {
   const [isVisible, setIsVisible] = useState(false);
   const randomAngle = Math.random() * 34 - 12; // Generates a number between -12 and 12
   const randomPostId = id ?? Math.floor(Math.random() * 8 + 1); // Generates a number between 1 and 2
-  const styleRotated = { ...style, transform: `rotate(${randomAngle}deg)` };
+  const styleRotated = {
+    ...style,
+    position: 'absolute',
+    transform: `rotate(${randomAngle}deg)`,
+  };
 
   // useEffect(() => {
   //   setTimeout(() => {
