@@ -1,18 +1,11 @@
 import { cloneElement, createContext, useContext, useState } from 'react';
 import { Tooltip } from 'react-tooltip';
-import {
-  IoHomeSharp,
-  IoBarChartSharp,
-  IoBookSharp,
-  IoExtensionPuzzleOutline,
-  IoArrowForwardCircle,
-  IoArrowBackCircle,
-} from 'react-icons/io5';
+import { IoArrowForwardCircle, IoArrowBackCircle } from 'react-icons/io5';
 
 const SideBarContext = createContext();
 
-export default function SideBar({ children }) {
-  const [closed, setClosed] = useState(false);
+export default function SideBar({ expanded, children }) {
+  const [closed, setClosed] = useState(!expanded);
 
   function toggleSidebar() {
     setClosed((prevClosed) => !prevClosed);
