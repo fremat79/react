@@ -1,28 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import Draggable from "react-draggable";
 
-export default function Post({ id, style }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const randomAngle = Math.random() * 34 - 12; // Generates a number between -12 and 12
-  const randomPostId = id ?? Math.floor(Math.random() * 8 + 1); // Generates a number between 1 and 2
-  const styleRotated = {
-    ...style,
-    position: 'absolute',
-    transform: `rotate(${randomAngle}deg)`,
-  };
+export default function Post({ postTypeId, postKey, style }) {
+  const [postState, setPostState] = useState({
+    typeId: postTypeId ?? Math.floor(Math.random() * 8 + 1),
+    style: {
+      ...style,
+      position: "absolute",
+      transform: Math.random() * 34 - 12,
+    },
+    position: { x: 0, y: 0 },
+  });
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsVisible(true);
-  //   }, 500);
-  // }, []);
+  function handleStopDrag(e, data, index) {
+    setPostState({ ...postState, position: { x: data.x, y: data.y } });
+  }
+
+  console.log(postState);
 
   return (
-    <div style={styleRotated} className="image-container">
-      <img src={`./wowPosts/wow${randomPostId}.svg`} alt="post" />
-      <div className={`overlay-text overlay-text-${randomPostId}`}>
-        Lorem Ipsum è un testo segnaposto utilizzato nel settore della
-        dasdasdasds dasd asdasdasd
+    <Draggable
+      key={postKey}
+      onStop={(e, data) => handleStopDrag(e, data, postKey)}
+    >
+      <div className="draggable">
+        <div style={postState.style} className="image-container">
+          <img src={`./wowPosts/wow${postState.typeId}.svg`} alt="post" />
+          <div className={`overlay-text overlay-text-${postState.typeId}`}>
+            Lorem Ipsum è un testo segnaposto utilizzato nel settore della
+            dasdasdasds dasd asdasdasd
+          </div>
+        </div>
       </div>
-    </div>
+    </Draggable>
   );
 }
