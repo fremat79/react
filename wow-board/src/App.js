@@ -1,7 +1,7 @@
 import Draggable from "react-draggable";
 import "./App.css";
 import Post from "./components/Post";
-import WowBoards from "./components/wowBoards";
+import WowBoards from "./components/WowBoards";
 import { useState } from "react";
 
 function calculateRandomPositions(numPosts, maxWidth, maxHeight, minSpacing) {
@@ -46,14 +46,13 @@ function App() {
   return (
     <>
       <WowBoards>
-        {positions.map((style, index) => (
+        {/* {positions.map((style, index) => (
           <Post
             key={index}
             postKey={index}
             style={{ zIndex: index, position: "absolute", ...style }}
           />
-        ))}
-        <div className="addPost">+</div>
+        ))} */}
       </WowBoards>
     </>
   );
