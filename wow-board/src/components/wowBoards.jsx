@@ -10,15 +10,66 @@ export default function WowBoards({ children }) {
 
   useEffect(() => {
     async function fetchData() {
+      // fetch post from server
       const response = await fetch("http://localhost:3001/posts");
       const data = await response.json();
-      setPosts(data);
+      // get local post position
+      let localPostsPosition = getLocalPostPosition();
+      // transform fetched post adding local position and store as state
+      let postsState = data.map((post) => {
+        const localPost = localPostsPosition.find((p) => p.id === post.id);
+        return {
+          ...post,
+          position: localPost ? localPost.position : { x: 0, y: 0 },
+        };
+      });
+
+      setPosts(postsState);
+
+      // extract post position from state and store in local storage
+      updateLocalPostPosition(postsState);
     }
     fetchData();
-  }, []);
+  });
+
+  function getLocalPostPosition() {
+    const postStorage = localStorage.getItem("posts");
+    if (!postStorage) {
+      localStorage.setItem("posts", JSON.stringify([]));
+      return [];
+    }
+    return JSON.parse(postStorage);
+  }
+
+  function updateLocalPostPosition(postsState) {
+    saveLocalPostPosition(
+      postsState.map((post) => {
+        return { id: post.id, position: post.position };
+      })
+    );
+  }
+
+  function saveLocalPostPosition(postsPosition) {
+    localStorage.setItem("posts", JSON.stringify(postsPosition));
+  }
+
+  function storePostPosition(id, postPosition) {
+    const postsPosition = getLocalPostPosition();
+    const post = postsPosition?.find((p) => p.id === id);
+    if (!post) {
+      postsPosition.push({ id, position: postPosition });
+    } else {
+      post.position = postPosition;
+    }
+    saveLocalPostPosition(postsPosition);
+  }
 
   function handleStopDrag(e, data, index) {
-    console.log("handle post stop drag", posts[index].content, data.x, data.y);
+    storePostPosition(posts[index].id, { x: data.x, y: data.y });
+  }
+
+  function handleCloseModal() {
+    setShowModal(false);
   }
 
   return (
@@ -26,10 +77,11 @@ export default function WowBoards({ children }) {
       {posts.map((post, index) => (
         <Draggable
           key={index}
+          defaultPosition={{ x: post.position.x, y: post.position.y }}
           onStop={(e, data) => handleStopDrag(e, data, index)}
         >
           <div className="draggable">
-            <Post content={post.content}></Post>
+            <Post settings={post}></Post>
           </div>
         </Draggable>
       ))}
@@ -42,7 +94,7 @@ export default function WowBoards({ children }) {
       </button>
       {showModal && (
         <Modal>
-          <AddPost />
+          <AddPost onClose={handleCloseModal} />
         </Modal>
       )}
     </div>

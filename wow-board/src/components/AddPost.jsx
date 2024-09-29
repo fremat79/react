@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const StyledForm = styled.form`
@@ -49,18 +50,54 @@ const StyledAddButton = styled.button`
   margin: 10px;
 `;
 
-export default function AddPost() {
+export default function AddPost({ onClose }) {
   const confirmPostColor = `rgb(63, 218, 2)`;
   const cancelPostColor = `rgb(255, 99, 71)`;
 
+  const [postContent, setPostContent] = useState("");
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const postType = Math.floor(Math.random() * 8 + 1);
+    const postRotation = Math.random() * 34 - 12;
+
+    fetch("http://localhost:3001/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        style: { type: postType, rotation: postRotation },
+        content: postContent,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        // Optionally, reset the textarea after successful submission
+        setPostContent("");
+        onClose();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
   return (
-    <StyledForm>
+    <StyledForm onSubmit={handleSubmit}>
       <StyledLabel htmlFor="post">
         <span>
-          Aggiungi qualcosa di <b>interessante</b>
+          Aggiungi qualcosa d'<b>interessante</b>
         </span>
       </StyledLabel>
-      <StyledInput maxLength={20} id="post" type="textarea" />
+      <StyledInput
+        maxLength={20}
+        id="post"
+        type="textarea"
+        value={postContent}
+        onChange={(e) => setPostContent(e.target.value)}
+      />
       <StyledButtonsPanel>
         <StyledAddButton bgColor={cancelPostColor} type="submit" />
         <StyledAddButton bgColor={confirmPostColor} type="submit" />

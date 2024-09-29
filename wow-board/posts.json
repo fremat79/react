@@ -1,6 +1,68 @@
 {
   "posts": [
-    { "id": 1, "content": "This is the first post." },
-    { "id": 2, "content": "This is the second post." }
+    {
+      "id": "1",
+      "style": {
+        "type": 1,
+        "rotation": 12
+      },
+      "content": "This is the first post."
+    },
+    {
+      "id": "3",
+      "style": {
+        "type": 2,
+        "rotation": -5
+      },
+      "content": "This is the 3 post."
+    },
+    {
+      "id": "e078",
+      "style": {
+        "type": 3,
+        "rotation": 10
+      },
+      "content": "add new post"
+    },
+    {
+      "id": "5578",
+      "style": {
+        "type": 4,
+        "rotation": 10
+      },
+      "content": "another post"
+    },
+    {
+      "id": "b541",
+      "style": {
+        "type": 1,
+        "rotation": 12
+      },
+      "content": "yet another post"
+    },
+    {
+      "id": "c5ba",
+      "style": {
+        "type": 1,
+        "rotation": 12
+      },
+      "content": "... yet another one"
+    },
+    {
+      "id": "e5ac",
+      "style": {
+        "type": 7,
+        "rotation": -10.231564958480208
+      },
+      "content": "NEW POST OF THE DAY"
+    },
+    {
+      "id": "be61",
+      "style": {
+        "type": 4,
+        "rotation": 5.774650765998139
+      },
+      "content": "I LOVE THIS POST!"
+    }
   ]
 }
