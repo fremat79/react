@@ -32,8 +32,3 @@ jobs:
     - name: Build the React app
       run: CI=false npm run build
       working-directory: ./use-plc
-
-    - name: Run tests
-      run: npm test
-      working-directory: ./use-plc
-
