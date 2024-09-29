@@ -12,7 +12,7 @@ const StyledModal = styled.div`
   transition: all 0.5s;
 `;
 
-const Overlay = styled.div`
+const StyledOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -25,5 +25,9 @@ const Overlay = styled.div`
 `;
 
 export default function Modal({ children }) {
-  return <StyledModal>{children}</StyledModal>;
+  return (
+    <StyledOverlay>
+      <StyledModal>{children}</StyledModal>;
+    </StyledOverlay>
+  );
 }

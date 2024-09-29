@@ -33,7 +33,7 @@ const StyledButtonsPanel = styled.div`
   justify-content: end;
 `;
 
-const StyledAddButton = styled.button`
+const StyledButton = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -59,8 +59,13 @@ export default function AddPost({ onClose }) {
   function handleSubmit(event) {
     event.preventDefault();
 
+    if (postContent === "") {
+      onClose();
+      return;
+    }
+
     const postType = Math.floor(Math.random() * 8 + 1);
-    const postRotation = Math.random() * 34 - 12;
+    const postRotation = Math.floor(Math.random() * 34 - 12);
 
     fetch("http://localhost:3001/posts", {
       method: "POST",
@@ -74,7 +79,6 @@ export default function AddPost({ onClose }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
         // Optionally, reset the textarea after successful submission
         setPostContent("");
         onClose();
@@ -99,8 +103,12 @@ export default function AddPost({ onClose }) {
         onChange={(e) => setPostContent(e.target.value)}
       />
       <StyledButtonsPanel>
-        <StyledAddButton bgColor={cancelPostColor} type="submit" />
-        <StyledAddButton bgColor={confirmPostColor} type="submit" />
+        <StyledButton
+          bgColor={cancelPostColor}
+          type="button"
+          onClick={onClose}
+        />
+        <StyledButton bgColor={confirmPostColor} type="submit" />
       </StyledButtonsPanel>
     </StyledForm>
   );
