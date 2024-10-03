@@ -28,9 +28,11 @@ export default function WowBoards({ children }) {
 
       // extract post position from state and store in local storage
       updateLocalPostPosition(postsState);
+
+      console.log("fetched posts", postsState);
     }
     fetchData();
-  });
+  }, []);
 
   function getLocalPostPosition() {
     const postStorage = localStorage.getItem("posts");
