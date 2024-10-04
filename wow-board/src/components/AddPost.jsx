@@ -1,5 +1,5 @@
-import { useState } from "react";
-import styled from "styled-components";
+import { useState } from 'react';
+import styled from 'styled-components';
 
 const StyledForm = styled.form`
   display: flex;
@@ -7,7 +7,7 @@ const StyledForm = styled.form`
   grid-template-rows: auto auto; */
   flex-direction: column;
   overflow: hidden;
-  font-family: "Reenie Beanie", cursive;
+  font-family: 'Reenie Beanie', cursive;
   font-size: 1.4rem;
 `;
 
@@ -54,12 +54,12 @@ export default function AddPost({ onClose }) {
   const confirmPostColor = `rgb(63, 218, 2)`;
   const cancelPostColor = `rgb(255, 99, 71)`;
 
-  const [postContent, setPostContent] = useState("");
+  const [postContent, setPostContent] = useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (postContent === "") {
+    if (postContent === '') {
       onClose();
       return;
     }
@@ -67,10 +67,10 @@ export default function AddPost({ onClose }) {
     const postType = Math.floor(Math.random() * 8 + 1);
     const postRotation = Math.floor(Math.random() * 34 - 12);
 
-    fetch("http://localhost:3001/posts", {
-      method: "POST",
+    fetch('http://localhost:3001/posts', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         style: { type: postType, rotation: postRotation },
@@ -80,11 +80,11 @@ export default function AddPost({ onClose }) {
       .then((response) => response.json())
       .then((data) => {
         // Optionally, reset the textarea after successful submission
-        setPostContent("");
+        setPostContent('');
         onClose();
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
       });
   }
 
@@ -96,7 +96,7 @@ export default function AddPost({ onClose }) {
         </span>
       </StyledLabel>
       <StyledInput
-        maxLength={20}
+        maxLength={200}
         id="post"
         type="textarea"
         value={postContent}
