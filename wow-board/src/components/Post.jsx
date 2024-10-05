@@ -30,7 +30,7 @@ const StyledOverlay = styled.div`
   align-items: center;
 `;
 
-export default function Post({ onRemove, settings }) {
+export default function Post({ onAction, settings }) {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const postState = {
     typeId: settings.style.type ?? Math.floor(Math.random() * 8 + 1),
@@ -56,11 +56,15 @@ export default function Post({ onRemove, settings }) {
         className="image-container"
       >
         <StyleOverlayContainer>
-          <StyledOverlay color="#0a010171" visible={isOverlayVisible}>
+          <StyledOverlay
+            onClick={() => onAction({ action: "edit", id: settings.id })}
+            color="#0a010171"
+            visible={isOverlayVisible}
+          >
             ✏️
           </StyledOverlay>
           <StyledOverlay
-            onClick={() => onRemove(settings.id)}
+            onClick={() => onAction({ action: "remove", id: settings.id })}
             color="#ff00006a"
             visible={isOverlayVisible}
           >

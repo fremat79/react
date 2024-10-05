@@ -5,13 +5,19 @@ import Modal from "./Modal";
 import Draggable from "react-draggable";
 import RemovePost from "./EditPosts/RemovePost";
 import AddPost from "./EditPosts/AddPost";
+import EditPost from "./EditPosts/EditPost";
 
 export default function WowBoards({ children }) {
   const [showModal, setShowModal] = useState(false);
-  const [confirm, setConfirm] = useState({ userData: null, visible: false });
+  const [deleteModal, setDeleteModal] = useState({
+    userData: null,
+    visible: false,
+  });
+  const [editModal, setEditModal] = useState({
+    userData: null,
+    visible: false,
+  });
   const [posts, setPosts] = useState([]);
-
-  console.log("rendering WowBoards");
 
   useEffect(() => {
     async function fetchData() {
@@ -77,8 +83,18 @@ export default function WowBoards({ children }) {
     setShowModal(false);
   }
 
-  function handleRemovePost(postId) {
-    setConfirm({ userData: postId, visible: true });
+  function handlePostAction(action) {
+    switch (action.action) {
+      case "remove":
+        setDeleteModal({ userData: action.id, visible: true });
+        //handleRemove(action.id);
+        break;
+      case "edit":
+        setEditModal({ userData: action.id, visible: true });
+        break;
+      default:
+        break;
+    }
   }
 
   async function handleConfirm(e) {
@@ -97,7 +113,7 @@ export default function WowBoards({ children }) {
         method: "DELETE",
       });
     }
-    setConfirm({ userData: null, visible: false });
+    setDeleteModal({ userData: null, visible: false });
   }
 
   return (
@@ -109,7 +125,7 @@ export default function WowBoards({ children }) {
           onStop={(e, data) => handleStopDrag(e, data, index)}
         >
           <div className="draggable">
-            <Post onRemove={handleRemovePost} settings={post}></Post>
+            <Post onAction={handlePostAction} settings={post}></Post>
           </div>
         </Draggable>
       ))}
@@ -125,10 +141,19 @@ export default function WowBoards({ children }) {
           <AddPost onClose={handleCloseModal} />
         </Modal>
       )}
-      {confirm.visible && (
+      {deleteModal.visible && (
         <Modal>
           <RemovePost
-            userData={confirm.userData}
+            userData={deleteModal.userData}
+            onConfirm={handleConfirm}
+            message="Sei sicuro ?"
+          />
+        </Modal>
+      )}
+      {editModal.visible && (
+        <Modal>
+          <EditPost
+            userData={editModal.userData}
             onConfirm={handleConfirm}
             message="Sei sicuro ?"
           />
