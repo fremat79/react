@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import Post from "./Post";
 import Modal from "./Modal";
-import AddPost from "./AddPost";
+
 import Draggable from "react-draggable";
+import RemovePost from "./EditPosts/RemovePost";
+import AddPost from "./EditPosts/AddPost";
 
 export default function WowBoards({ children }) {
   const [showModal, setShowModal] = useState(false);
+  const [confirm, setConfirm] = useState({ userData: null, visible: false });
   const [posts, setPosts] = useState([]);
+
+  console.log("rendering WowBoards");
 
   useEffect(() => {
     async function fetchData() {
@@ -28,8 +33,6 @@ export default function WowBoards({ children }) {
 
       // extract post position from state and store in local storage
       updateLocalPostPosition(postsState);
-
-      console.log("fetched posts", postsState);
     }
     fetchData();
   }, []);
@@ -74,16 +77,39 @@ export default function WowBoards({ children }) {
     setShowModal(false);
   }
 
+  function handleRemovePost(postId) {
+    setConfirm({ userData: postId, visible: true });
+  }
+
+  async function handleConfirm(e) {
+    if (!e.cancel) {
+      const postId = e.userData;
+
+      // Remove post from local state
+      const updatedPosts = posts.filter((post) => post.id !== postId);
+      setPosts(updatedPosts);
+
+      // Update local storage
+      updateLocalPostPosition(updatedPosts);
+
+      // Make DELETE request to JSON server
+      await fetch(`http://localhost:3001/posts/${postId}`, {
+        method: "DELETE",
+      });
+    }
+    setConfirm({ userData: null, visible: false });
+  }
+
   return (
     <div className="wowBoard">
       {posts.map((post, index) => (
         <Draggable
-          key={index}
+          key={post.id}
           defaultPosition={{ x: post.position.x, y: post.position.y }}
           onStop={(e, data) => handleStopDrag(e, data, index)}
         >
           <div className="draggable">
-            <Post settings={post}></Post>
+            <Post onRemove={handleRemovePost} settings={post}></Post>
           </div>
         </Draggable>
       ))}
@@ -97,6 +123,15 @@ export default function WowBoards({ children }) {
       {showModal && (
         <Modal>
           <AddPost onClose={handleCloseModal} />
+        </Modal>
+      )}
+      {confirm.visible && (
+        <Modal>
+          <RemovePost
+            userData={confirm.userData}
+            onConfirm={handleConfirm}
+            message="Sei sicuro ?"
+          />
         </Modal>
       )}
     </div>

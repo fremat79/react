@@ -6,7 +6,7 @@
         "type": 1,
         "rotation": 12
       },
-      "content": "This is the first post."
+      "content": "post #1"
     },
     {
       "id": "3",
@@ -14,7 +14,7 @@
         "type": 2,
         "rotation": -5
       },
-      "content": "This is the 3 post."
+      "content": "post #2"
     },
     {
       "id": "e078",
@@ -22,7 +22,7 @@
         "type": 3,
         "rotation": 10
       },
-      "content": "add new post"
+      "content": "post #3"
     },
     {
       "id": "5578",
@@ -30,7 +30,7 @@
         "type": 4,
         "rotation": 10
       },
-      "content": "another post"
+      "content": "post #4"
     },
     {
       "id": "b541",
@@ -38,7 +38,7 @@
         "type": 1,
         "rotation": 12
       },
-      "content": "yet another post"
+      "content": "post #5"
     },
     {
       "id": "c5ba",
@@ -46,7 +46,7 @@
         "type": 1,
         "rotation": 12
       },
-      "content": "... yet another one"
+      "content": "post #6"
     },
     {
       "id": "e5ac",
@@ -54,7 +54,7 @@
         "type": 7,
         "rotation": -10.231564958480208
       },
-      "content": "NEW POST OF THE DAY"
+      "content": "post #7"
     },
     {
       "id": "be61",
@@ -62,7 +62,7 @@
         "type": 4,
         "rotation": 5.774650765998139
       },
-      "content": "I LOVE THIS POST!"
+      "content": "post #9"
     }
   ]
 }

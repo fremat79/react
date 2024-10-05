@@ -1,30 +1,36 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const StyledOverlay = styled.div`
+const StyleOverlayContainer = styled.div`
+  display: flex;
+
   position: absolute;
+  gap: 10px;
   bottom: 20px;
   right: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #ff00006a;
-  opacity: ${(props) => (props.visible ? 1 : 0)};
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.848);
-  transition: opacity 0.4s ease;
-  text-align: center;
-  font-size: 60px;
   color: #fff;
   font-weight: bold;
   font-family: "Reenie Beanie", cursive;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 10;
 `;
 
-export default function Post({ settings }) {
+const StyledOverlay = styled.div`
+  display: flex;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  opacity: ${(props) => (props.visible ? 1 : 0)};
+  background-color: ${(props) => props.color};
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.848);
+  transition: opacity 0.4s ease;
+  text-align: center;
+
+  justify-content: center;
+  align-items: center;
+`;
+
+export default function Post({ onRemove, settings }) {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const postState = {
     typeId: settings.style.type ?? Math.floor(Math.random() * 8 + 1),
@@ -49,7 +55,18 @@ export default function Post({ settings }) {
         onMouseLeave={handleMouseLeave}
         className="image-container"
       >
-        <StyledOverlay visible={isOverlayVisible}>x</StyledOverlay>
+        <StyleOverlayContainer>
+          <StyledOverlay color="#0a010171" visible={isOverlayVisible}>
+            ✏️
+          </StyledOverlay>
+          <StyledOverlay
+            onClick={() => onRemove(settings.id)}
+            color="#ff00006a"
+            visible={isOverlayVisible}
+          >
+            ❌
+          </StyledOverlay>
+        </StyleOverlayContainer>
         <img src={`./wowPosts/wow${postState.typeId}.svg`} alt="post" />
         <div className={`overlay-text overlay-text-${postState.typeId}`}>
           {settings.content}

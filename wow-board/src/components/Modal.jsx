@@ -10,6 +10,8 @@ const StyledModal = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
   padding: 1.2rem 1.4rem;
   transition: all 0.5s;
+  font-family: "Reenie Beanie", cursive;
+  font-size: 2.4rem;
 `;
 
 const StyledOverlay = styled.div`
