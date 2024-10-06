@@ -5,7 +5,6 @@ import Modal from "./Modal";
 import Draggable from "react-draggable";
 import RemovePost from "./EditPosts/RemovePost";
 import AddPost from "./EditPosts/AddPost";
-import EditPost from "./EditPosts/EditPost";
 
 export default function WowBoards({ children }) {
   const [showModal, setShowModal] = useState(false);
@@ -79,22 +78,35 @@ export default function WowBoards({ children }) {
     storePostPosition(posts[index].id, { x: data.x, y: data.y });
   }
 
-  function handleCloseModal() {
-    setShowModal(false);
+  function handleCloseModal(modalType) {
+    switch (modalType) {
+      case "add":
+        setShowModal(false);
+        break;
+      case "edit":
+        setEditModal({ userData: null, visible: false });
+        break;
+      default:
+        break;
+    }
   }
 
   function handlePostAction(action) {
     switch (action.action) {
       case "remove":
         setDeleteModal({ userData: action.id, visible: true });
-        //handleRemove(action.id);
         break;
       case "edit":
-        setEditModal({ userData: action.id, visible: true });
+        const post = posts.find((p) => p.id === action.id);
+        setEditModal({ userData: post, visible: true });
         break;
       default:
         break;
     }
+  }
+
+  function addNewPost(newPost) {
+    setPosts((prevPosts) => [...prevPosts, newPost]);
   }
 
   async function handleConfirm(e) {
@@ -138,7 +150,7 @@ export default function WowBoards({ children }) {
       </button>
       {showModal && (
         <Modal>
-          <AddPost onClose={handleCloseModal} />
+          <AddPost addNewPost={addNewPost} onClose={handleCloseModal} />
         </Modal>
       )}
       {deleteModal.visible && (
@@ -152,11 +164,7 @@ export default function WowBoards({ children }) {
       )}
       {editModal.visible && (
         <Modal>
-          <EditPost
-            userData={editModal.userData}
-            onConfirm={handleConfirm}
-            message="Sei sicuro ?"
-          />
+          <AddPost post={editModal.userData} onClose={handleCloseModal} />
         </Modal>
       )}
     </div>

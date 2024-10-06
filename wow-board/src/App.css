@@ -112,7 +112,7 @@ body {
 .wowBoard {
   position: relative;
   min-width: 90%;
-  height: calc(100vh - 20px);
+  height: calc(100vh - 22px);
   border: 1px solid #000;
   overflow: hidden;
   background-image: url(/public/board.png);
