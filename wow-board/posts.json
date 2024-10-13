@@ -43,10 +43,9 @@
     {
       "id": "e5ac",
       "style": {
-        "type": 7,
-        "rotation": -10.231564958480208
+        "type": 2
       },
-      "content": "post #7"
+      "content": "<p>post <emoji code='1f973'> #7 prova di aggiuntfa emoji <emoji code='1f973'> ddd sdfasdasdasdasdasd</p>"
     },
     {
       "id": "be61",

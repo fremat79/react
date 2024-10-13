@@ -1,5 +1,7 @@
+import DOMPurify from "dompurify";
 import { useState } from "react";
 import styled from "styled-components";
+import { postToHtml } from "./ui/EmojiBolt";
 
 const StyleOverlayContainer = styled.div`
   display: flex;
@@ -30,6 +32,94 @@ const StyledOverlay = styled.div`
   align-items: center;
 `;
 
+const StyledOverlayText = styled.div`
+  position: absolute;
+  color: black;
+  pointer-events: auto; /* Ensure the text doesn't interfere with image interactions */
+  font-family: "Reenie Beanie", cursive;
+  font-size: 35px;
+  font-weight: 700;
+  &.overlay-text-1 {
+    cursor: move;
+    top: 80px;
+    left: 60px;
+    width: 250px;
+    height: 200px;
+  }
+  &.overlay-text-2 {
+    top: 60px;
+    left: 40px;
+    width: 240px;
+    height: 300px;
+    cursor: move;
+  }
+
+  &.overlay-text-3 {
+    top: 50px;
+    left: 14px;
+    width: 225px;
+    height: 250px;
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+    transform: rotate(3deg);
+    cursor: move;
+  }
+
+  &.overlay-text-4 {
+    top: 65px;
+    left: 34px;
+    width: 260px;
+    height: 240px;
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+    cursor: move;
+  }
+
+  &.overlay-text-5 {
+    top: 65px;
+    left: 34px;
+    width: 260px;
+    height: 240px;
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+    cursor: move;
+  }
+
+  &.overlay-text-6 {
+    top: 65px;
+    left: 34px;
+    width: 260px;
+    height: 150px;
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+    cursor: move;
+  }
+
+  &.overlay-text-7 {
+    top: 55px;
+    left: 14px;
+    width: 250px;
+    height: 210px;
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+    cursor: move;
+  }
+
+  &.overlay-text-8 {
+    top: 35px;
+    left: 14px;
+    width: 300px;
+    height: 225px;
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+    cursor: move;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 export default function Post({ onAction, settings }) {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const postState = {
@@ -46,6 +136,9 @@ export default function Post({ onAction, settings }) {
   const handleMouseLeave = () => {
     setIsOverlayVisible(false);
   };
+
+  // Sanitize the HTML content
+  const sanitizedContent = DOMPurify.sanitize(postToHtml(settings.content));
 
   return (
     <>
@@ -72,9 +165,10 @@ export default function Post({ onAction, settings }) {
           </StyledOverlay>
         </StyleOverlayContainer>
         <img src={`./wowPosts/wow${postState.typeId}.svg`} alt="post" />
-        <div className={`overlay-text overlay-text-${postState.typeId}`}>
-          {settings.content}
-        </div>
+        <StyledOverlayText
+          className={`overlay-text-${postState.typeId}`}
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+        />
       </div>
     </>
   );

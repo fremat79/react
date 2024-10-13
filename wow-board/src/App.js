@@ -45,15 +45,7 @@ function App() {
 
   return (
     <>
-      <WowBoards>
-        {/* {positions.map((style, index) => (
-          <Post
-            key={index}
-            postKey={index}
-            style={{ zIndex: index, position: "absolute", ...style }}
-          />
-        ))} */}
-      </WowBoards>
+      <WowBoards />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { act, useState } from "react";
+import { useState } from "react";
 import {
   StyledButton,
   StyledButtonsPanel,
@@ -8,9 +8,13 @@ import {
   StyledPreviewPanel,
 } from "../ui/UIComponents";
 import PostPreview from "../ui/PostPreview";
+import PostEditor from "./PostEditor";
+import { postToHtml, htmlToPost } from "../ui/EmojiBolt";
 
 export default function AddPost({ addNewPost, onClose, post = null }) {
-  const [postContent, setPostContent] = useState(post ? post.content : "");
+  const [postContent, setPostContent] = useState(
+    post ? postToHtml(post.content) : ""
+  );
   const [postType, setPostType] = useState(post ? post.style.type : 1);
   const actionType = post ? "edit" : "add";
 
@@ -27,7 +31,7 @@ export default function AddPost({ addNewPost, onClose, post = null }) {
 
       const newPost = {
         style: { type: postType, rotation: postRotation },
-        content: postContent,
+        content: htmlToPost(postContent),
       };
 
       fetch("http://localhost:3001/posts", {
@@ -59,7 +63,7 @@ export default function AddPost({ addNewPost, onClose, post = null }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          content: postContent,
+          content: htmlToPost(postContent),
           style: { type: postType },
         }),
       })
@@ -87,13 +91,8 @@ export default function AddPost({ addNewPost, onClose, post = null }) {
           Aggiungi qualcosa d'<b>interessante</b>
         </span>
       </StyledLabel>
-      <StyledInput
-        maxLength={200}
-        id="post"
-        type="textarea"
-        value={postContent}
-        onChange={(e) => setPostContent(e.target.value)}
-      />
+      <PostEditor postContent={postContent} setPostContent={setPostContent} />
+
       <StyledPreviewPanel onClick={handlePreviewClick}>
         <PostPreview postIndex={1} active={postType ? postType === 1 : false} />
         <PostPreview postIndex={2} active={postType ? postType === 2 : false} />
