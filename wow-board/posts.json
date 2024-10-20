@@ -3,35 +3,40 @@
     {
       "id": "1",
       "style": {
-        "type": 1
+        "type": 1,
+        "rotation": 13
       },
       "content": "<p><strong>Buongiorno!</strong></p><p>Iniziamo questa nuova settimana <img class=\"emoji\" src=\"Emoji/1f44d.gif\"></p>"
     },
     {
       "id": "3",
       "style": {
-        "type": 6
+        "type": 6,
+        "rotation": 7
       },
       "content": "<p>Frullato di banane per <strong>tutti </strong>in sala mensa <img class=\"emoji\" src=\"Emoji/1f929.gif\"></p>"
     },
     {
       "id": "e078",
       "style": {
-        "type": 5
+        "type": 5,
+        "rotation": 5
       },
       "content": "<p>é finito il sapone nel bagno <img class=\"emoji\" src=\"Emoji/1f631.gif\">... chi lo compra ?</p><p>Grazie</p>"
     },
     {
       "id": "5578",
       "style": {
-        "type": 7
+        "type": 7,
+        "rotation": 12
       },
-      "content": "<p>La stampante <strong class=\"ql-size-large\">non</strong> stampa piú <img class=\"emoji\" src=\"Emoji/1f631.gif\"> </p>"
+      "content": "<p>La stampante <strong class=\"ql-size-large\">non</strong> stampa piú <img class=\"emoji\" src=\"Emoji/1f92c.gif\"></p>"
     },
     {
       "id": "c5ba",
       "style": {
-        "type": 3
+        "type": 3,
+        "rotation": 13
       },
       "content": "<p>Chi viene a pranzo oggi ?</p>"
     }
