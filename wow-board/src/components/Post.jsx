@@ -1,7 +1,6 @@
 import DOMPurify from "dompurify";
 import { useState } from "react";
 import styled from "styled-components";
-import { postToHtml } from "./ui/EmojiBolt";
 
 const StyleOverlayContainer = styled.div`
   display: flex;
@@ -38,7 +37,7 @@ const StyledOverlayText = styled.div`
   pointer-events: auto; /* Ensure the text doesn't interfere with image interactions */
   font-family: "Reenie Beanie", cursive;
   font-size: 35px;
-  font-weight: 700;
+
   &.overlay-text-1 {
     cursor: move;
     top: 80px;
@@ -46,6 +45,7 @@ const StyledOverlayText = styled.div`
     width: 250px;
     height: 200px;
   }
+
   &.overlay-text-2 {
     top: 60px;
     left: 40px;
@@ -115,6 +115,11 @@ const StyledOverlayText = styled.div`
     cursor: move;
   }
 
+  .emoji {
+    width: 32px;
+    height: 32px;
+  }
+
   &:focus {
     outline: none;
   }
@@ -138,7 +143,7 @@ export default function Post({ onAction, settings }) {
   };
 
   // Sanitize the HTML content
-  const sanitizedContent = DOMPurify.sanitize(postToHtml(settings.content));
+  const sanitizedContent = DOMPurify.sanitize(settings.content);
 
   return (
     <>

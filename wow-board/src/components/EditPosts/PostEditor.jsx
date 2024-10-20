@@ -1,72 +1,47 @@
 import "react-quill/dist/quill.snow.css"; // Import the styles for the editor
 import ReactQuill, { Quill } from "react-quill";
-import styled from "styled-components";
-//import EmojiBlot from "../ui/EmojiBolt"; // Import the custom blot
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { EmojiCodes } from "../ui/EmojiList";
-import { transformContent } from "../Post";
-import DOMPurify from "dompurify";
 
-function EmojiButton({ emojiCode, onInsert }) {
-  const StyleEmojiBtn = styled.button`
-    margin: 10px;
-  `;
-  const StyleEmojiImg = styled.img`
-    width: 32px;
-    height: 32px;
-  `;
+import React, { useRef, useState } from "react";
+import ToolBar from "./Toolbar";
 
-  return (
-    <StyleEmojiBtn
-      onClick={(e) => {
-        e.preventDefault();
-        onInsert(emojiCode);
-      }}
-    >
-      <StyleEmojiImg
-        src={`https://fonts.gstatic.com/s/e/notoemoji/latest/${emojiCode}/512.gif`}
-      />
-    </StyleEmojiBtn>
-  );
-}
-const CustomToolbar = React.memo(({ onInsert }) => {
-  return (
-    <div id="toolbar">
-      {EmojiCodes.map((emojiCode) => (
-        <EmojiButton onInsert={onInsert} emojiCode={emojiCode} />
-      ))}
-    </div>
-  );
-});
+var Image = Quill.import("formats/image");
+Image.className = "emoji";
+Quill.register(Image, true);
 
 export default function PostEditor({ postContent = "", setPostContent }) {
-  const quillRef = useRef(null);
-  // const modules = {
-  //   toolbar: {
-  //     container: "#toolbar",
-  //   },
-  // };
+  const quillEditor = useRef(null);
 
-  function handleChange(value) {
-    console.log("handleChange", value);
-    setPostContent(value);
+  const modules = {
+    toolbar: {
+      container: "#my-quill-toolbar",
+    },
+  };
+
+  function handleAddEmoji(emojiCode) {
+    if (quillEditor.current) {
+      const quill = quillEditor.current.getEditor();
+      const range = quill.getSelection();
+      const imageUrl = `Emoji/${emojiCode}.gif`;
+
+      if (range) {
+        quill.insertEmbed(range.index, "image", imageUrl);
+        quill.setSelection(range.index + 1); // Move cursor to the right of the image
+      } else {
+        quill.insertEmbed(0, "image", imageUrl);
+      }
+    }
   }
 
-  //const htmlPostContent = DOMPurify.sanitize(transformContent(content));
-
-  //Quill.register(EmojiBlot);
-
-  console.log("PostEditor", postContent);
-
   return (
-    <div className="quill-editor-container">
-      {/* <CustomToolbar onInsert={insertEmoji} /> */}
+    <div className="text-editor">
+      <ToolBar onAddEmoji={handleAddEmoji} />
       <ReactQuill
-        ref={quillRef}
+        ref={quillEditor}
+        modules={modules}
+        theme="snow"
         value={postContent}
-        onChange={(e) => handleChange(e)}
-        // modules={modules}
-      />
+        onChange={setPostContent}
+      ></ReactQuill>
     </div>
   );
 }

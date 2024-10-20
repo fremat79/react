@@ -3,18 +3,14 @@ import {
   StyledButton,
   StyledButtonsPanel,
   StyledForm,
-  StyledInput,
   StyledLabel,
   StyledPreviewPanel,
 } from "../ui/UIComponents";
 import PostPreview from "../ui/PostPreview";
 import PostEditor from "./PostEditor";
-import { postToHtml, htmlToPost } from "../ui/EmojiBolt";
 
 export default function AddPost({ addNewPost, onClose, post = null }) {
-  const [postContent, setPostContent] = useState(
-    post ? postToHtml(post.content) : ""
-  );
+  const [postContent, setPostContent] = useState(post ? post.content : "");
   const [postType, setPostType] = useState(post ? post.style.type : 1);
   const actionType = post ? "edit" : "add";
 
@@ -31,7 +27,7 @@ export default function AddPost({ addNewPost, onClose, post = null }) {
 
       const newPost = {
         style: { type: postType, rotation: postRotation },
-        content: htmlToPost(postContent),
+        content: postContent,
       };
 
       fetch("http://localhost:3001/posts", {
@@ -63,7 +59,7 @@ export default function AddPost({ addNewPost, onClose, post = null }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          content: htmlToPost(postContent),
+          content: postContent,
           style: { type: postType },
         }),
       })

@@ -15,7 +15,8 @@
   /* display: block; */
 }
 .image-container p {
-  display: inline;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -97,15 +98,27 @@ body {
 
 .ql-editor {
   font-family: "Reenie Beanie", cursive;
-  font-size: 3rem;
+  font-size: 2rem;
 }
-/* custom-quill.css */
+
 .quill-editor-container {
   height: 300px; /* Set the desired height */
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
+.ql-size-small {
+  font-size: 1.8rem;
+}
+
+.ql-size-large {
+  font-size: 4rem;
+}
+
+.ql-size-huge {
+  font-size: 5rem;
+}
+
 .emoji {
-  display: inline;
-  vertical-align: middle;
+  width: 24px;
+  height: 24px;
 }
