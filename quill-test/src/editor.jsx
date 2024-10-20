@@ -1,7 +1,11 @@
 import React, { useRef, useState } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ToolBar from "./ToolBar";
+
+var Image = Quill.import("formats/image");
+Image.className = "emoji";
+Quill.register(Image, true);
 
 export default function Editor() {
   const [value, setValue] = useState("");
@@ -21,14 +25,15 @@ export default function Editor() {
       const imageUrl =
         "https://fonts.gstatic.com/s/e/notoemoji/latest/1f600/512.gif"; // Replace with your image URL
 
-      quill.clipboard.dangerouslyPasteHTML(
-        0,
-        `<img src="${imageUrl}" class="${customClass}" />`
-      );
+      if (range) {
+        quill.insertEmbed(range.index, "image", imageUrl);
+        quill.setSelection(range.index + 1); // Move cursor to the right of the image
+      } else {
+        quill.insertEmbed(0, "image", imageUrl);
+      }
     }
   }
 
-  //return <ReactQuill theme="snow" value={value} onChange={setValue} />;
   return (
     <div className="text-editor">
       <ToolBar onAddEmoji={handleAddEmoji} />
